@@ -1,0 +1,87 @@
+{% extends 'home.html' %}
+{% block content %}
+<section class="section bg-gray">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<!-- Left sidebar -->
+			<div class="col-lg-8">
+				<div class="product-details">
+					<h1 class="product-title">{{job.designation}}</h1>
+					<div class="product-meta">
+						<ul class="list-inline">
+							<li class="list-inline-item"><i class="fa fa-rupee"></i> Package <a href="user-profile.html">{{job.salary}}</a></li>
+							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Job type<a href="category.html">{{job.job_type}}</a></li>
+							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="category.html">{{job.location}}</a></li>
+						</ul>
+					</div>
+					<div class="content mt-5 pt-5">
+						<ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
+              <li class="nav-item">
+         <a style="background:#844FC1" class="nav-link active" id="pills-requirements-tab" data-toggle="pill" href="#pills-requirements" role="tab" aria-controls="pills-requirements" aria-selected="true">Requirements</a>
+     </li>
+     <li class="nav-item">
+         <a style="background:#844FC1" class="nav-link" id="pills-description-tab" data-toggle="pill" href="#pills-description" role="tab" aria-controls="pills-description" aria-selected="false">Description</a>
+     </li>
+
+						</ul>
+            <br>
+            <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-requirements" role="tabpanel" aria-labelledby="pills-requirements-tab">
+          <h3 class="tab-title">Job Requirements</h3>
+          <p>Required Skills : {{job.mandatory_skills}}</p>
+          <p>Knowledge about {{job.optional_skills}} is an advantage</p>
+          <a class="nav-link text-white add-button" href="/user_login">Apply Now</a>
+
+      </div>
+      <div class="tab-pane fade" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
+          <h3 class="tab-title">Job Description</h3>
+          <p>{{job.job_description}}</p>
+          <a class="nav-link text-white add-button" href="/user_login">Apply Now</a>
+      </div>
+  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Container End -->
+</section>
+<script type="text/javascript">
+// Get references to the tabs
+const requirementsTab = document.getElementById('pills-requirements-tab');
+const descriptionTab = document.getElementById('pills-description-tab');
+
+// Get references to the content panes
+const requirementsContent = document.getElementById('pills-requirements');
+const descriptionContent = document.getElementById('pills-description');
+
+// Function to show requirements content and hide description content
+function showRequirements() {
+    requirementsTab.classList.add('active');
+    descriptionTab.classList.remove('active');
+
+    requirementsContent.classList.add('show', 'active');
+    descriptionContent.classList.remove('show', 'active');
+}
+
+// Function to show description content and hide requirements content
+function showDescription() {
+    requirementsTab.classList.remove('active');
+    descriptionTab.classList.add('active');
+
+    requirementsContent.classList.remove('show', 'active');
+    descriptionContent.classList.add('show', 'active');
+}
+
+// Add click event listeners to the tabs
+requirementsTab.addEventListener('click', showRequirements);
+descriptionTab.addEventListener('click', showDescription);
+
+// Show requirements content by default
+showRequirements();
+
+
+</script>
+
+{% endblock %}

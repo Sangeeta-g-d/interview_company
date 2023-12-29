@@ -1,0 +1,115 @@
+{% extends 'base1.html' %}
+{% block content %}
+<style media="screen">
+  /* Add this CSS to style the headings as buttons */
+  .heading-button {
+      cursor: pointer;
+      font-size: 16px; /* Adjust size as needed */
+      font-weight: 100px;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 0;
+      transition: all 0.3s ease;
+  }
+
+  .heading-button:hover {
+      background-color: #f0f0f0;
+  }
+  .buttons-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.card-container {
+    width: 630px; /* Set your desired constant width */
+    /* Additional styles as needed */
+}
+
+.card {
+    width: 100%;
+    /* Other card styles */
+}
+
+
+</style>
+<div class="container">
+  <div class="row justify-content-center">
+
+
+
+<div class="col-md-8 grid-margin stretch-card">
+
+                  <div class="card newsletter-card bg-light">
+                    <div class="card-body text-center">
+      <img src="/{{ job.company_id.profile }}" class="rounded-circle mb-3" alt="Image" style="width: 70px; height: 70px;">
+      <h6 class="mb-3 text-black">{{ job.company_id.first_name }}</h6>
+      <h5 class="mb-3 text-black">{{ job.designation }}</h5>
+      <p>Location : {{job.location}} &nbsp;&nbsp;&nbsp; Package : {{job.salary}}</p>
+        <p>Type : {{job.work_mode}} &nbsp;&nbsp;&nbsp; </p>
+  </div>
+    </div>
+</div>
+<div class="card-container">
+    <div class="card bg-light">
+        <div class="card-body d-flex flex-column justify-content-between">
+
+            <div class="buttons-container">
+                <h3 class="heading-button mr-2 active" onclick="showRequirements()">Job Requirements</h3>&nbsp &nbsp
+                <h3 class="heading-button" onclick="showDescription()">Description</h3>
+            </div>
+            <br>
+            <div id="requirements" style="display: block;">
+                <!-- Content for job requirements -->
+                <p>Skill : {{job.mandatory_skills}}</p>
+                <p>Qualification : {{job.qualification}}</p>
+                <p>Experience : {{job.experience}}</p>
+                <p>Knowledge about {{job.optional_skills}} add advantage.</p>
+
+            </div>
+            <div id="description"  style="display: none;">
+                <!-- Content for job description -->
+                <p>Department : {{job.department}}</p>
+                <p>{{job.job_description}}</p>
+            </div>
+            <canvas id="sales-chart-b" class="mt-auto chartjs-render-monitor" height="119" width="1139" style="display: block; height: 60px; width: 570px;"></canvas>
+            <a href="{% url 'application' job_id=job.id u_id=i %}"> <button type="button" style="width:7cm" class="btn btn-primary btn-rounded btn-fw" name="button">Apply Now</button></a>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  function showRequirements() {
+    var requirements = document.getElementById('requirements');
+    var description = document.getElementById('description');
+    var reqButton = document.querySelector('.buttons-container .heading-button:nth-child(1)');
+    var descButton = document.querySelector('.buttons-container .heading-button:nth-child(2)');
+
+    requirements.style.display = 'block';
+    description.style.display = 'none';
+
+    reqButton.classList.add('active');
+    descButton.classList.remove('active');
+}
+
+function showDescription() {
+    var requirements = document.getElementById('requirements');
+    var description = document.getElementById('description');
+    var reqButton = document.querySelector('.buttons-container .heading-button:nth-child(1)');
+    var descButton = document.querySelector('.buttons-container .heading-button:nth-child(2)');
+
+    requirements.style.display = 'none';
+    description.style.display = 'block';
+
+    reqButton.classList.remove('active');
+    descButton.classList.add('active');
+}
+
+// Show requirements by default
+showRequirements();
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,564 @@
+{% extends 'home.html' %}
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="...">
+<style>
+  .section {
+    overflow-x: hidden;
+}
+
+  .small-image {
+    width: 70px; /* Adjust the width as needed */
+   height: 80px; /* Adjust the height as needed */
+   display: block;
+   margin: 10px auto; /* Adjust the height as needed */
+  }
+  .card-body.text-center {
+    text-align: center;
+}
+#suggestionListJobTitle {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none; /* Hide the list initially */
+}
+
+#suggestionListJobTitle li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#suggestionListJobTitle li:hover {
+    background-color: #f2f2f2;
+}
+
+.container1 {
+    /* Remove width and justify-content properties */
+    position: relative;
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+}
+.content1 {
+    color: #fdf5ff;
+}
+
+.job-openings {
+    display: inline-block;
+    color: #fdf5ff;
+}
+.container1 .card1 {
+    /* Remove position and width declarations */
+    cursor: pointer;
+    flex: 1 0 100%; /* Ensures each card occupies full width on smaller screens */
+    max-width: 100%; /* Allows cards to shrink to fit smaller screens */
+    margin-bottom: 20px; /* Added margin for spacing between cards */
+}
+/* Additional styles for responsiveness */
+@media (min-width: 768px) { /* Adjust as needed */
+    .container1 .card1 {
+        flex: 0 0 calc(33.333% - 20px); /* Three cards per row with margin */
+        max-width: calc(33.333% - 20px);
+        margin-right: 20px; /* Add margin between cards */
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+
+    .container1 .card1:last-child {
+        margin-right: 0; /* Remove margin for the last card in a row */
+    }
+}
+
+.container1 .card1 .face{
+    width: 300px;
+    height: 200px;
+    transition: 0.5s;
+}
+
+.container1 .card1 .face.face1{
+    position: relative;
+    background:#0d063b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    color:white;
+    transform: translateY(100px);
+}
+
+.container1 .card1:hover .face.face1{
+    background: #ff0057;
+    transform: translateY(0);
+}
+
+.container1 .card1 .face.face1 .content1{
+    opacity: 0.2;
+    transition: 0.5s;
+    color : white;
+}
+
+.container1 .card1:hover .face.face1 .content1{
+    opacity: 1;
+}
+
+.container1 .card1 .face.face1 .content1 img{
+    max-width: 100px;
+}
+
+.container1 .card1 .face.face1 .content1 h3{
+    margin: 10px 0 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.container1 .card1 .face.face2{
+    position: relative;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    transform: translateY(-100px);
+    text-align: justify;
+}
+
+.container1 .card1:hover .face.face2{
+    transform: translateY(0);
+}
+
+.container1 .card1 .face.face2 .content1 p{
+    margin: 0;
+    padding: 0;
+}
+
+.container1 .card1 .face.face2 .content1 a{
+    margin: 15px 0 0;
+    display:  inline-block;
+    text-decoration: none;
+    font-weight: 900;
+    color: #333;
+    padding: 5px;
+    border: 1px solid #333;
+}
+
+.container1 .card1 .face.face2 .content1 a:hover{
+    background: #333;
+    color: #fff;
+}
+
+
+  </style>
+
+<!--===============================
+=            Hero Area            =
+================================-->
+
+<section class="hero-area bg-1 text-center overly">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Header Contetnt -->
+				<div class="content-block">
+					<h1>From Applications to Offers</h1>
+					<p>your one-stop platform for efficient and streamlined job application and hiring processes.<br>
+           Simplifying the recruitment journey for all stakeholders involved.</p>
+					<div class="short-popular-category-list text-center">
+
+            	<h2>Popular Keywords</h2>
+						<ul class="list-inline">
+							<li class="list-inline-item">
+								<a href="{% url 'search_results' %}?keyword=Python">Python</a></li>
+							<li class="list-inline-item">
+								<a href="{% url 'search_results' %}?keyword=Web%20Development">Web Development</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="{% url 'search_results' %}?keyword=Software%20Engineer">Software Engineer</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="{% url 'search_results' %}?keyword=Data%20Analyst">Data Analyst</a>
+							</li>
+              <li class="list-inline-item">
+                <a href="{% url 'search_results' %}?keyword=Security%20Analyst">Security Analyst</a>
+              </li>
+
+						</ul>
+					</div>
+
+				</div>
+				<!-- Advance Search -->
+				<div class="advance-search">
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col-lg-12 col-md-12 align-content-center">
+								<form method="GET" action="{% url 'search_results' %}">
+									<div class="form-row">
+                    <div class="form-group col-xl-4 col-lg-3 col-md-6">
+       <input type="text" name="job_title" class="form-control my-2 my-lg-1" id="inputtext4" placeholder="Job Title">
+       <ul id="suggestionListJobTitle"></ul> <!-- Empty <ul> for displaying suggestions -->
+   </div>
+
+										<div class="form-group col-lg-3 col-md-6">
+											<select  name="type" class="w-100 form-control mt-lg-1 mt-md-2">
+												<option>Job Type</option>
+												<option value="Full time">Full Time</option>
+												<option value="Part time">Part Time</option>
+
+											</select>
+										</div>
+										<div class="form-group col-lg-3 col-md-6">
+											<input  name="keyword" type="text" class="form-control my-2 my-lg-1" id="inputLocation4" placeholder="Location">
+										</div>
+										<div class="form-group col-xl-2 col-lg-3 col-md-6 align-self-center">
+											<button style="background:#844FC1;" type="submit" class="btn btn-primary active w-100">Search Now</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#inputtext4').on('input', function() {
+        const keyword = $(this).val().trim();
+        const suggestionList = $('#suggestionListJobTitle');
+
+        if (keyword.length >= 2) {  // Adjust the minimum length for suggestions
+            $.ajax({
+                url: '/autocomplete-job-title/',  // Replace with your Django URL for job title suggestions
+                data: { keyword: keyword },
+                dataType: 'json',
+                success: function(response) {
+                    const suggestions = response.suggestions;
+                    suggestionList.empty(); // Clear previous suggestions
+                    if (suggestions.length > 0) {
+                        suggestions.forEach(function(suggestion) {
+                            suggestionList.append(`<li>${suggestion}</li>`); // Append suggestions to the <ul>
+                        });
+                        suggestionList.show(); // Show the suggestion list
+                    } else {
+                        suggestionList.hide(); // Hide the suggestion list if no suggestions
+                    }
+                }
+            });
+        } else {
+            suggestionList.hide(); // Hide the suggestion list if input length is less than 2
+        }
+    });
+
+    // Handle click on suggestion and populate the input field
+    $('body').on('click', '#suggestionListJobTitle li', function() {
+        const suggestionText = $(this).text();
+        $('#inputtext4').val(suggestionText);
+        $('#suggestionListJobTitle').hide(); // Hide the suggestion list after selecting a suggestion
+    });
+});
+</script>
+
+	<!-- Container End -->
+</section>
+
+
+<!--===========================================
+=            Popular deals section            =
+============================================-->
+
+<section class="popular-deals section bg-gray">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="section-title">
+					<h2>Featured Jobs</h2>
+					<p>Efficiency Redefined, Opportunities Unlimited: Empowering Your Job Search</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- offer 01 -->
+			<div class="col-lg-12">
+				<div class="trending-ads-slide">
+            {% for x in shuffled_jobs %}
+					<div class="col-sm-12 col-lg-4">
+						<!-- product card -->
+
+<div class="product-item bg-light">
+	<div class="card">
+		<div class="thumb-content">
+			<!-- <div class="price">$200</div> -->
+      {% if x.company_id.first_name%}
+
+			<a href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}">
+				<img class="small-image card-img-top img-fluid" src="{{x.company_id.profile}}" alt="Card image cap">
+			</a>
+      {% else %}
+      <a href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}">
+        <img class="small-image card-img-top img-fluid" src="{{x.company_id.profile}}" alt="Card image cap">
+      </a>
+      {% endif %}
+		</div>
+    <div class="card-body text-center">
+      {% if x.company_id.first_name %} <!-- Added 'text-center' class -->
+      <h4 class="card-title"><a href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}">{{x.designation}}</a></h4>
+      {% else %}
+      <h4 class="card-title"><a href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}">{{x.designation}}</a></h4>
+      {% endif %}
+      {% if x.company_id.first_name %}
+          <p class="card-text">{{x.company_id.first_name}}</p>
+      {% else %}
+          <p class="card-text">{{x.company_id.company_name}}</p>
+      {% endif %}
+      <ul class="list-inline product-meta">
+          <li class="list-inline-item">
+            <i class="fa fa-folder-open-o"></i> {{x.job_type}}
+          </li>
+          <li class="list-inline-item">
+            <i class="fa fa-map-marker"></i> {{x.location}}
+          </li>
+          <li class="list-inline-item">
+            <i class="fa fa-rupee-sign"></i> {{x.salary}}
+          </li>
+      </ul>
+  </div>
+
+	</div>
+</div>
+					</div>
+          {% endfor %}
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<!--==========================================
+=            All Category Section            =
+===========================================-->
+
+<section class=" section">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<!-- Section title -->
+				<div class="section-title">
+					<h2>All Categories</h2>
+					<p>Connecting Talent with Opportunity</p>
+				</div>
+        <div class="row">
+      {% for department, count in department_open_counts %}
+      <div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
+          <div class="category-block" style="width: 250px; height: 200px;"> <!-- Adjust width and height as needed -->
+              <div class="header">
+                  <i class="fa fa-briefcase icon-bg-5"></i>
+                  <h4>{{ department }}</h4>
+              </div>
+              <ul class="category-list">
+                  <li><a href="{% url 'job_list' department|urlencode %}">Active Jobs <span>{{ count }}</span></a></li>
+              </ul>
+          </div>
+      </div>
+      {% empty %}
+      <p>No departments found.</p>
+      {% endfor %}
+  </div>
+
+
+			</div>
+		</div>
+	</div>
+	<!-- Container End -->
+</section>
+<section style="margin-top:-80px;" class="section">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+      	<div class="col-12">
+          <div class="section-title">
+            <h2>All Categories</h2>
+            <p>Connecting Talent with Opportunity</p>
+          </div>
+<div class="container1">
+  <div class="col-lg-4 col-md-4 col-sm-12">
+    <div class="card1">
+        <div class="face face1">
+          <div class="content1" style="color: #fdf5ff; text-align: center;">
+      <i class="fas fa-search fa-3x" style="display: block;"></i> <!-- fa-3x for a larger icon -->
+      <h3 class="job-openings" style="display: inline-block;">Browse Job Openings</h3>
+  </div>
+
+        </div>
+        <div class="face face2">
+            <div class="content">
+                <p>Explore a vast array of job opportunities tailored to your preferences.
+                  Our comprehensive job listings cover various industries, roles, and locations. Filter by industry, location, job type, and keywords to find the perfect match for your skills
+                  and aspirations. Discover exciting career prospects effortlessly.</p>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+    <div class="card1">
+        <div class="face face1">
+          <div class="content1" style="color: #fdf5ff; text-align: center;">
+    <i class="fas fa-file-alt fa-3x" style="display: block;"></i> <!-- Using the file-alt icon -->
+    <h3 class="job-openings" style="display: inline-block;">Seamless Applications</h3>
+</div>
+
+
+        </div>
+        <div class="face face2">
+            <div class="content">
+                <p>Applying for jobs has never been simpler. Submit your application seamlessly
+                  through our platform. Upload your resume, cover letter, and any additional documents required directly to the job listing. Our user-friendly interface ensures
+                  a smooth application process, saving you time and effort.</p>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+    <div class="card1">
+        <div class="face face1">
+          <div class="content1" style="color: #fdf5ff; text-align: center;">
+    <i class="fas fa-desktop fa-3x" style="display: block;"></i> <!-- Example: using a desktop icon -->
+    <h3 class="job-openings" style="display: inline-block;">Personalized Dashboard</h3>
+</div>
+
+        </div>
+        <div class="face face2">
+            <div class="content">
+                <p>A personalized hub for both companies and candidates. Companies have access to a dedicated
+                  dashboard where they can manage job postings, review applications, schedule interviews.
+                  Candidates, on the other hand, can monitor their application status, view scheduled interviews, and update their profiles—all conveniently in one place.</p>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+	<!-- hiring partners -->
+<section class="popular-deals section bg-gray">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="section-title">
+					<h2>Hiring Partners</h2>
+					<p>From Listings to Interviews: Enhancing Your Hiring Experience</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- offer 01 -->
+			<div class="col-lg-12">
+				<div class="trending-ads-slide">
+            {% for x in hiring_partners %}
+					<div class="col-sm-12 col-lg-4">
+						<!-- product card -->
+
+<div class="product-item bg-light">
+	<div class="card">
+		<div class="thumb-content">
+			<!-- <div class="price">$200</div> -->
+
+			<a href="single.html">
+				<img class="small-image card-img-top img-fluid" src="{{x.profile}}" alt="Card image cap">
+			</a>
+
+
+		</div>
+    <div class="card-body text-center"> <!-- Added 'text-center' class -->
+      <h4 class="card-title"><a href="single.html">{{x.first_name}}</a></h4>
+
+      <p class="card-text">{{ x.about }}</p>
+  <a href="/user_login" class="read-more-link">Know More</a>
+
+<script type="text/javascript">
+// Function to truncate text and show "Know More" link if necessary
+function truncateText(element, maxLength) {
+    let text = element.textContent.trim();
+    if (text.length > maxLength) {
+        let truncatedText = text.slice(0, maxLength) + '...';
+        element.textContent = truncatedText;
+
+        let readMoreLink = element.nextElementSibling; // Assuming the link is the next sibling
+        readMoreLink.style.display = 'inline'; // Show the "Know More" link
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    let cardTextElements = document.querySelectorAll('.card-text');
+    const MAX_WORDS = 80;
+
+    cardTextElements.forEach(function (element) {
+        truncateText(element, MAX_WORDS);
+    });
+});
+
+</script>
+
+
+
+  </div>
+
+	</div>
+</div>
+					</div>
+          {% endfor %}
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<!--====================================
+=            Call to Action            =
+=====================================-->
+
+<section class="call-to-action overly bg-3 section-sm">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row justify-content-md-center text-center">
+			<div class="col-md-10">
+				<div class="content-holder">
+					<h2>Seamless Hiring Solutions: Empowering Companies, Empowering Growth</h2>
+					<ul class="list-inline mt-30">
+						<li class="list-inline-item"><a class="btn btn-main" href="login">Post Job</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Container End -->
+</section>
+
+<!--============================
+=            Footer            =
+=============================-->
+{% endblock %}

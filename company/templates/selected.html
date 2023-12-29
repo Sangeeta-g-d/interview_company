@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style media="screen">
+  .my-select-class {
+    /* Add your styling properties here */
+    /* For example: */
+    width: 120px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* Other styling as needed */
+}
+.popup-form {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+.break-word {
+    word-break: break-all;
+  }
+  /* CSS for messages */
+.messages {
+  list-style: none;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.messages li {
+  margin-bottom: 5px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Add different styles for different message tags (e.g., success, error, etc.) */
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+</style>
+
+<div class="col-lg-16 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Job Applications</h3>
+      {% if messages %}
+              <ul class="messages">
+                  {% for message in messages %}
+                      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+              </ul>
+          {% endif %}
+          <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+    var messages = document.querySelectorAll('.messages li');
+    if (messages.length > 0) {
+        messages.forEach(function(message) {
+            setTimeout(function() {
+                message.style.opacity = '0';
+                message.style.height = '0';
+                message.style.padding = '0';
+                message.style.margin = '0';
+            }, 10000); // Set the time in milliseconds (e.g., 5000 = 5 seconds)
+        });
+    }
+});
+
+
+          </script>
+      <div class="row">
+      <div class="col-md-6">
+
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" name="search_query" id="searchInput" class="form-control" placeholder="Search..." aria-label="search" aria-describedby="search" value="{{ request.GET.search_query }}">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit" id="search">
+              <i class="typcn typcn-zoom"></i>
+            </button>
+            <button class="btn btn-outline-primary" type="button" id="refreshIcon">
+              <i class="typcn typcn-refresh"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const refreshIcon = document.getElementById('refreshIcon');
+        const tableRows = document.querySelectorAll('.table tbody tr');
+
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+          const searchText = this.value.trim().toLowerCase();
+          filterTable(searchText);
+        });
+
+        // Reset search and show all data on refresh icon click
+        refreshIcon.addEventListener('click', function() {
+          searchInput.value = ''; // Clear search input
+          filterTable(''); // Show all rows
+        });
+
+        function filterTable(searchText) {
+          tableRows.forEach(function(row) {
+            let found = false;
+            row.querySelectorAll('td').forEach(function(cell) {
+              const cellText = cell.textContent.toLowerCase();
+              if (cellText.includes(searchText)) {
+                found = true;
+              }
+            });
+
+            if (found) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        }
+      });
+    </script>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Application id</th>
+              <th>Name</th>
+              <th>Designation</th>
+              <th>Skills</th>
+              <th>Experience</th>
+              <th>Qualification</th>
+              <th>Email</th>
+              <th>Contact Number</th>
+              <th>Resume</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for x in data %}
+            <tr>
+              <td>{{x.application_id_id}}</td>
+              <td>{{x.user_id.first_name}} {{x.user_id.last_name}}</td>
+
+              <td>{{x.application_id.job_id.designation}}</td>
+              <td class="break-words">{{x.application_id.skills}}</td>
+
+              <td>{{x.application_id.experience}}</td>
+                <td>{{x.application_id.qualification}}</td>
+              <td>{{x.user_id.email}}</td>
+              <td>{{x.user_id.phone_no}}</td>
+              <td>
+              <a href="{{ x.application_id.resume }}" target="_blank" class="badge badge-success">View Resume</a>
+              </td>
+              <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tds = document.querySelectorAll('.break-words');
+
+      tds.forEach(td => {
+        const words = td.textContent.split(' ');
+        const maxWordsPerLine = 5; // Change this number as needed
+
+        if (words.length > maxWordsPerLine) {
+          let formattedText = '';
+          for (let i = 0; i < words.length; i++) {
+            formattedText += words[i] + ' ';
+            if ((i + 1) % maxWordsPerLine === 0) {
+              formattedText += '<br><br>';
+            }
+          }
+          td.innerHTML = formattedText.trim(); // Remove trailing space
+        }
+      });
+    });
+  </script>
+
+              <!-- Inside the for loop where you generate the "Schedule" links -->
+<td>
+    <a href="#" data-application-id="{{ x.application_id_id }}"class="badge badge-success schedule-link">Schedule</a>
+</td>
+
+            </tr>
+            <div class="modal fade" id="scheduleModal{{ x.application_id_id }}" tabindex="-1" role="dialog"
+            aria-labelledby="scheduleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="scheduleModalLabel">Schedule Interview</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Include your Django form rendering logic here -->
+                        <form method="post" action="{% url 'schedule_interview1' x.application_id_id %}">
+                            {% csrf_token %}
+                            <!-- Your form fields go here -->
+
+                            <label for="interview_date">Date</label>
+                            <input  class="form-control form-control-lg" type="date" name="interview_date" required>
+
+                            <label for="interview_time">Start Time</label>
+                            <input type="time" class="form-control form-control-lg" name="start_time" required>
+
+                            <label for="interview_time">End Time</label>
+                            <input type="time" class="form-control form-control-lg" name="end_time" required>
+                            <!-- ... (previous code) ... -->
+<br>
+                            <label for="interview_date">Mode of Interview</label>
+                            <div class="form-check mb-2 pl-3"> <!-- Add padding-left to the form-check div -->
+                                <input class="form-check-input" type="radio" name="mode_of_interview" id="virtual" value="virtual" checked>
+                                <label class="form-check-label" for="virtual">Virtual</label>
+                            </div>
+                            <div class="form-check mb-2 pl-3"> <!-- Add padding-left to the form-check div -->
+                                <input class="form-check-input" type="radio" name="mode_of_interview" id="walk_in" value="walk_in">
+                                <label class="form-check-label" for="walk_in">Walk in</label>
+                            </div>
+                            <div class="form-check mb-2 pl-3"> <!-- Add padding-left to the form-check div -->
+                                <input class="form-check-input" type="radio" name="mode_of_interview" id="telephonic" value="telephonic">
+                                <label class="form-check-label" for="telephonic">Telephonic</label>
+                            </div>
+
+                            <!-- ... (remaining code) ... -->
+
+
+                            <input type="hidden" name="application_id" value="{{ x.application_id_id }}">
+                            <button type="submit" class="btn btn-primary">Schedule Interview</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="schedulePopup" class="popup-form">
+  <!-- Add your form content here -->
+  <h3>Schedule Form</h3>
+<br>
+
+
+  <!-- Add form fields and submit button as needed -->
+</div>
+<script>
+    $(document).ready(function() {
+        $('.schedule-link').on('click', function() {
+            var applicationId = $(this).data('application-id');
+            var modalId = '#scheduleModal' + applicationId;
+
+            // Update the modal's URL with the application_id
+            $(modalId + ' form').attr('action', '/schedule_interview1/' + applicationId + '/');
+
+            // Open the modal
+            $(modalId).modal('show');
+
+            // Make an AJAX request to the schedule_interview view
+            $.ajax({
+                url: '/schedule_interview1/' + applicationId + '/',
+                type: 'GET',
+                success: function(response) {
+                    // Handle the response and update the value of {{ job }}
+                    console.log(response);
+
+                    // Assuming the response is a JSON object with a 'job' property
+                    var job = response.job;
+                     console.log(job)
+                    // Update the value of {{ job }} in the template
+                    $(modalId + ' form input[name="designation"]').val(job);
+                },
+                error: function(error) {
+                    // Handle errors if any
+
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+{% endblock %}

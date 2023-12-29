@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="col-lg-16 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Job Openings</h3>
+      <div class="row">
+    <div class="col-md-6">
+        <a href="/add_job">
+            <button type="button" class="btn btn-primary mr-2">+ Add New Job</button>
+        </a>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+          <form class=""id="searchForm" >
+      <div class="input-group">
+          <input type="text" name="search_query" class="form-control" placeholder="Search..." aria-label="search" aria-describedby="search" value="{{ request.GET.search_query }}">
+          <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit" id="search">
+                  <i class="typcn typcn-zoom"></i>
+              </button>
+              <a href="{% url 'job_vacancy' %}">
+                  <button class="btn btn-outline-secondary" type="button" id="refresh">
+                      <i class="typcn typcn-refresh"></i>
+                  </button>
+              </a>
+          </div>
+      </div>
+  </form>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to handle search functionality
+        function performSearch() {
+            const searchInput = document.querySelector('input[name="search_query"]');
+            const searchText = searchInput.value.toLowerCase();
+            const tableRows = document.querySelectorAll('#dataTable tbody tr');
+
+            tableRows.forEach(row => {
+                const rowData = row.textContent.toLowerCase();
+                if (rowData.includes(searchText)) {
+                    row.style.display = ''; // Show the row if it contains the search text
+                } else {
+                    row.style.display = 'none'; // Hide the row if it doesn't match the search text
+                }
+            });
+        }
+
+        // Event listener for form submission
+        const searchForm = document.getElementById('searchForm');
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            performSearch(); // Call the search function
+        });
+
+        // Optional: Event listener for real-time search as the user types
+        const searchInput = document.querySelector('input[name="search_query"]');
+        searchInput.addEventListener('input', performSearch);
+    });
+</script>
+        </div>
+    </div>
+</div>
+      <p class="card-description">
+
+      </p>
+      <div class="table-responsive">
+        <table class="table table-hover" id="dataTable">
+          <thead>
+            <tr>
+
+              <th>Designation</th>
+              <th>Department</th>
+              <th>location</th>
+              <th>Work Mode</th>
+              <th>No. of Vacancy</th>
+              <th>Mandary Skills</th>
+              <th>Optinal Skills</th>
+              <th>Qualification</th>
+              <th>Experience</th>
+              <th>Salary</th>
+              <th>Status</th>
+              <th>Action</th>
+
+            </tr>
+          </thead>
+          <tbody>
+              {% for x in data %}
+            <tr>
+
+              <td>{{x.designation}}</td>
+              <td>{{x.department}}</td>
+              <td>{{x.location}}</td>
+              <td>{{x.work_mode}}</td>
+              <td>{{x.no_of_vacancy}}</td>
+              <td>{{x.mandatory_skills}}</td>
+              <td>{{x.optional_skills}}</td>
+              <td>{{ x.qualification}}</td>
+              <td>{{ x.experience}}</td>
+              <td>{{ x.salary}}</td>
+              <td>
+        {{x.status}}
+      </td>
+
+
+      <td>
+
+<form method="POST" action="{% url 'delete_jobs' x.pk %}">
+{% csrf_token %}
+<button type="submit" class="badge badge-success">
+    Delete
+</button>
+</form>
+</td>
+
+            </tr>
+{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if success_message %}
+    <script>
+        alert("Job added successfully!");
+    </script>
+{% endif %}
+
+
+
+{% endblock %}

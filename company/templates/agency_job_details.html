@@ -1,0 +1,148 @@
+{% extends 'base2.html' %}
+{% block content %}
+
+
+<div class="col-lg-16 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Job Openings</h3>
+      <div class="row">
+
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="text" name="search_query" id="searchInput" class="form-control" placeholder="Search..." aria-label="search" aria-describedby="search" value="{{ request.GET.search_query }}">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit" id="search">
+                <i class="typcn typcn-zoom"></i>
+              </button>
+              <a href="{% url 'agency_job_details' %}">
+                  <button class="btn btn-outline-secondary" type="button" id="refresh">
+                      <i class="typcn typcn-refresh"></i>
+                  </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-description">
+
+      </p>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Company Name</th>
+              <th>Designation</th>
+              <th>Department</th>
+              <th>location</th>
+              <th>Work Mode</th>
+              <th>No. of Vacancy</th>
+              <th>Mandary Skills</th>
+              <th>Optinal Skills</th>
+              <th>Qualification</th>
+              <th>Experience</th>
+              <th>Salary</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for x in data %}
+            <tr>
+
+                <td>{{x.company_id.company_name}}</td>
+
+              <td>{{x.designation}}</td>
+              <td>{{x.department}}</td>
+              <td>{{x.location}}</td>
+              <td>{{x.work_mode}}</td>
+              <td>{{x.no_of_vacancy}}</td>
+              <td  class="break-words">{{x.mandatory_skills}}</td>
+              <td  class="break-words">{{x.optional_skills}}</td>
+              <td>{{ x.qualification}}</td>
+              <td>{{ x.experience}}</td>
+              <td>{{ x.salary}}</td>
+              <td>
+        {{x.status}}
+      </td>
+              <td><a href="/update_job/{{ x.id }}"><label class="badge badge-success">Update</label></a></td>
+                <td><a href="/update_job/{{ x.id }}"><label class="badge badge-success">Delete</label></a></td>
+            </tr>
+{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const tds = document.querySelectorAll('.break-words');
+
+tds.forEach(td => {
+const words = td.textContent.split(' ');
+const maxWordsPerLine = 5; // Change this number as needed
+
+if (words.length > maxWordsPerLine) {
+let formattedText = '';
+for (let i = 0; i < words.length; i++) {
+formattedText += words[i] + ' ';
+if ((i + 1) % maxWordsPerLine === 0) {
+formattedText += '<br><br>';
+}
+}
+td.innerHTML = formattedText.trim(); // Remove trailing space
+}
+});
+});
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Your button -->
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const refreshIcon = document.getElementById('refreshIcon');
+        const tableRows = document.querySelectorAll('.table tbody tr');
+
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+          const searchText = this.value.trim().toLowerCase();
+          filterTable(searchText);
+        });
+
+        // Reset search and show all data on refresh icon click
+        refreshIcon.addEventListener('click', function() {
+          searchInput.value = ''; // Clear search input
+          filterTable(''); // Show all rows
+        });
+
+        function filterTable(searchText) {
+          tableRows.forEach(function(row) {
+            let found = false;
+            row.querySelectorAll('td').forEach(function(cell) {
+              const cellText = cell.textContent.toLowerCase();
+              if (cellText.includes(searchText)) {
+                found = true;
+              }
+            });
+
+            if (found) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        }
+      });
+    </script>
+    {% if success_message %}
+        <script>
+            alert("Job added successfully!");
+        </script>
+    {% endif %}
+
+
+{% endblock %}

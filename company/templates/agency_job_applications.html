@@ -1,0 +1,176 @@
+{% extends 'base2.html' %}
+{% block content %}
+
+
+<style media="screen">
+  .my-select-class {
+    /* Add your styling properties here */
+    /* For example: */
+    width: 120px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* Other styling as needed */
+}
+/* Add different styles for different message tags (e.g., success, error, etc.) */
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+</style>
+
+<div class="col-lg-16 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Job Applications</h3>
+      <div class="row">
+
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="text" name="search_query" id="searchInput" class="form-control" placeholder="Search..." aria-label="search" aria-describedby="search" value="{{ request.GET.search_query }}">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit" id="search">
+                <i class="typcn typcn-zoom"></i>
+              </button>
+              <a href="{% url 'agency_job_details' %}">
+                  <button class="btn btn-outline-secondary" type="button" id="refresh">
+                      <i class="typcn typcn-refresh"></i>
+                  </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if messages %}
+              <ul class="messages">
+                  {% for message in messages %}
+                      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+              </ul>
+          {% endif %}
+          <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+    var messages = document.querySelectorAll('.messages li');
+    if (messages.length > 0) {
+        messages.forEach(function(message) {
+            setTimeout(function() {
+                message.style.opacity = '0';
+                message.style.height = '0';
+                message.style.padding = '0';
+                message.style.margin = '0';
+            }, 10000); // Set the time in milliseconds (e.g., 5000 = 5 seconds)
+        });
+    }
+  });
+
+
+          </script>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Application id</th>
+              <th>Name</th>
+
+              <th>Designation</th>
+              <th>Company</th>
+              <th>Skills</th>
+              <th>Experience</th>
+              <th>Qualification</th>
+              <th>Email</th>
+              <th>Contact Number</th>
+              <th>Resume</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for x in job %}
+            <tr>
+              <td>{{x.pk}}</td>
+              <td>{{x.user_id.first_name}} {{x.user_id.last_name}}</td>
+
+              <td>{{x.job_id.designation}}</td>
+              <td>{{x.job_id.company_id.company_name}}</td>
+              <td>{{x.skills}}</td>
+              <td>{{x.qualification}}</td>
+              <td>{{x.experience}}</td>
+              <td>{{x.user_id.email}}</td>
+              <td>{{x.user_id.phone_no}}</td>
+              <td>
+              <a href="{{ x.resume }}" target="_blank" class="badge badge-success">View Resume</a>
+              </td>
+              <td>{{x.applied_date}}</td>
+              <td>
+                <form method="post" >
+    {% csrf_token %}
+
+    <select name="status_{{ x.pk }}" class="my-select-class" onchange="this.form.submit()">
+                      <option value="Pending">--select--</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Selected">Selected</option>
+                      <option value="Rejected">Rejected</option>
+                      <!-- Add other options as needed -->
+                  </select>
+          </form>
+              </td>
+              <td>
+                <form method="POST" action="{% url 'delete_application' x.pk %}">
+                  {% csrf_token %}
+                <button type="submit" class="badge badge-danger">Delete</button>
+              </form>
+              </td>
+            </tr>
+{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const refreshIcon = document.getElementById('refreshIcon');
+        const tableRows = document.querySelectorAll('.table tbody tr');
+
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+          const searchText = this.value.trim().toLowerCase();
+          filterTable(searchText);
+        });
+
+        // Reset search and show all data on refresh icon click
+        refreshIcon.addEventListener('click', function() {
+          searchInput.value = ''; // Clear search input
+          filterTable(''); // Show all rows
+        });
+
+        function filterTable(searchText) {
+          tableRows.forEach(function(row) {
+            let found = false;
+            row.querySelectorAll('td').forEach(function(cell) {
+              const cellText = cell.textContent.toLowerCase();
+              if (cellText.includes(searchText)) {
+                found = true;
+              }
+            });
+
+            if (found) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        }
+      });
+    </script>
+
+{% endblock %}

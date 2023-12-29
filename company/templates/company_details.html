@@ -1,0 +1,127 @@
+{% extends 'base2.html' %}
+{% block content %}
+
+<div class="col-lg-16 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Company Details</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <a href="Add_company" class="btn btn-primary mr-2">+ Add New Company</a>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="text" name="search_query" id="searchInput" class="form-control" placeholder="Search..." aria-label="search" aria-describedby="search" value="{{ request.GET.search_query }}">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit" id="search">
+                <i class="typcn typcn-zoom"></i>
+              </button>
+              <a href="{% url 'company_details' %}">
+                  <button class="btn btn-outline-secondary" type="button" id="refresh">
+                      <i class="typcn typcn-refresh"></i>
+                  </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="card-description"></p>
+
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Company Name</th>
+              <th>Company Email</th>
+              <th>Contact person email</th>
+              <th>Phone number</th>
+              <th>Contact person designation</th>
+              <th>City</th>
+              <th>Action</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in data %}
+            <tr>
+              <td>{{x.company_name}}</td>
+              <td>{{x.company_email}}</td>
+              <td>{{x.c_p_email}}</td>
+              <td>{{x.c_p_phone_no}}</td>
+              <td>{{x.c_p_designation}}</td>
+              <td>{{x.city}}</td>
+              <td><a href="/agency_job/{{ x.id }}"><label class="badge badge-success">Add Job</label></a></td><br>
+              <td>
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="id" value="{{ x.id }}">
+                  <select name="status" class="my-select-class" onchange="this.form.submit()">
+                    <option value="open" >Open</option>
+                    <option value="closed">Closed</option>
+                    <!-- Add other options as needed -->
+                  </select>
+                </form>
+              </td>
+              <td>
+                <form method="POST" action="{% url 'delete_operator' x.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-link btn-sm btn-rounded">
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const refreshIcon = document.getElementById('refreshIcon');
+        const tableRows = document.querySelectorAll('.table tbody tr');
+
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+          const searchText = this.value.trim().toLowerCase();
+          filterTable(searchText);
+        });
+
+        // Reset search and show all data on refresh icon click
+        refreshIcon.addEventListener('click', function() {
+          searchInput.value = ''; // Clear search input
+          filterTable(''); // Show all rows
+        });
+
+        function filterTable(searchText) {
+          tableRows.forEach(function(row) {
+            let found = false;
+            row.querySelectorAll('td').forEach(function(cell) {
+              const cellText = cell.textContent.toLowerCase();
+              if (cellText.includes(searchText)) {
+                found = true;
+              }
+            });
+
+            if (found) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        }
+      });
+    </script>
+    {% if success_message %}
+        <script>
+            alert("Job added successfully!");
+        </script>
+    {% endif %}
+
+{% endblock %}

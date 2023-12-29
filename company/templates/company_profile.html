@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card newsletter-card bg-light">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <!-- Image -->
+                    <div class="col-auto">
+                        <img src="{{obj.profile}}" class="rounded-circle mb-3" alt="Image" style="width: 120px; height: 120px;">
+                    </div>
+                    <!-- Company Name -->
+                    <div class="col-auto text-center">
+                        <h5 class="mb-0">{{obj.first_name}}</h5>
+                    </div>
+                    <div class="col-auto mt-4 text-center">
+                      <p>email : {{obj.email}} </p>
+                      <p>Contact No. : {{obj.phone_no}} </p>
+                      <p>Number of Job Openings: {{jobs}}</p>
+                      <p style="text-align:justify;">{{obj.about}}</p>
+                    <a href="/edit_company_profile"> <button type="button" class="btn btn-primary btn-lg font-weight-medium auth-form-btn" name="button">Edit</button></a> 
+
+                    </div>
+
+                    <!-- Other content within the card -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

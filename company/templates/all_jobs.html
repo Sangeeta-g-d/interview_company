@@ -1,0 +1,171 @@
+{% extends 'home.html' %}
+{% block content %}
+<style media="screen">
+.product-item .card .card-body {
+  height: 248px; /* Adjust the height as needed */
+  overflow: hidden;
+}
+
+</style>
+
+<section class="page-search">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Advance Search -->
+				<div class="advance-search nice-select-white">
+          <form method="GET" action="{% url 'search_results' %}">
+            <div class="form-row">
+              <div class="form-group col-xl-4 col-lg-3 col-md-6">
+                <input type="text" name="job_title" class="form-control my-2 my-lg-1" id="inputtext4"
+                  placeholder="Job Title">
+              </div>
+              <div class="form-group col-lg-3 col-md-6">
+                <select  name="type" class="w-100 form-control mt-lg-1 mt-md-2">
+                  <option>Job Type</option>
+                  <option value="Full time">Full Time</option>
+                  <option value="Part time">Part Time</option>
+
+                </select>
+              </div>
+              <div class="form-group col-lg-3 col-md-6">
+                <input  name="keyword" type="text" class="form-control my-2 my-lg-1" id="inputLocation4" placeholder="Location">
+              </div>
+              <div class="form-group col-xl-2 col-lg-3 col-md-6 align-self-center">
+                <button style="background:white;" type="submit" class="btn active w-100">Search Now</button>
+              </div>
+            </div>
+          </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section-sm">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="search-result bg-gray">
+          <h2>Jobs</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-md-4">
+				<div class="category-sidebar">
+					<div class="widget category-list">
+	<h4 class="widget-header">All Departments</h4>
+  <ul class="category-list">
+      {% for department, count in department_open_counts %}
+		<li><a href="{% url 'job_list' department|urlencode %}">{{ department }} </a></li>
+	{% endfor %}
+	</ul>
+</div>
+
+<div class="widget category-list">
+	<h4 class="widget-header">Work Mode</h4>
+	<ul class="category-list">
+
+    <li><a href="{% url 'work_mode' 'Work Form Office' %}">Work from Office</a></li>
+    <li><a href="{% url 'work_mode' 'hybride' %}">Hybride</a></li>
+    <li><a href="{% url 'work_mode' 'remote' %}">Remote</a></li>
+	</ul>
+</div>
+
+				</div>
+			</div>
+			<div class="col-lg-9 col-md-8">
+
+				<div class="product-grid-list">
+					<div class="row mt-30">
+            {% for x in combined_data %}
+						<div class="col-lg-4 col-md-6">
+							<!-- product card -->
+<div class="product-item bg-light">
+	<div class="card ml-2">
+		<div class="thumb-content">
+			<!-- <div class="price">$200</div> -->
+      {% if x.company_id.first_name %}
+      <div class="image-container">
+        <a href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}" style="display: block; text-align: center;">
+      <img class="card-img-top img-fluid mt-3" src="/{{ x.company_id.profile }}" alt="Card image cap" style="width: 100px; height: auto; margin: 0 auto;">
+  </a>
+
+  </div>
+      {% else %}
+      <div class="image-container">
+        <a href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}" style="display: block; text-align: center;">
+      <img class="card-img-top img-fluid mt-3" src="/{{ x.company_id.profile }}" alt="Card image cap" style="width: 100px; height: auto; margin: 0 auto;">
+  </a>
+  </div>
+      {% endif %}
+		</div>
+		<div class="card-body">
+		    <h4 class="card-title">{{x.designation}}</h4>
+		    <ul class="list-inline product-meta">
+          {% if x.company_id.first_name %}
+          <li class="list-inline-item">
+		    	{{x.company_id.first_name}}
+		    	</li><br>
+          {% else %}
+          <li class="list-inline-item">
+            {{x.company_id.company_name}}
+          </li><br>
+          {% endif %}
+		    	<li class="list-inline-item">
+		    	<i class="fa fa-folder-open-o"></i> {{x.job_type}}
+		    	</li>
+		    	<li class="list-inline-item">
+		    		<i class="fa fa-map-marker"></i> {{x.location}}
+		    	</li>
+          <li class="list-inline-item">
+              <i class="fa fa-rupee-sign"></i> {{x.salary}}
+          </li>
+		    </ul>
+        <p class="card-text">Required Skills : {{ x.mandatory_skills }}</p>
+        {% if x.company_id.first_name %}
+    <a class="nav-link text-white add-button" href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}" class="read-more-link">Apply now</a><br>
+    {% else %}
+    <a class="nav-link text-white add-button" href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}" class="read-more-link">Apply now</a><br>
+    {% endif %}
+		</div>
+      &nbsp<p class="card-text">Posted {{x.days_since_posted}} ago</p>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+// Function to truncate text and show "Know More" link if necessary
+function truncateText(element, maxLength) {
+    let text = element.textContent.trim();
+    if (text.length > maxLength) {
+        let truncatedText = text.slice(0, maxLength) + '...';
+        element.textContent = truncatedText;
+
+        let readMoreLink = element.nextElementSibling; // Assuming the link is the next sibling
+        readMoreLink.style.display = 'inline'; // Show the "Know More" link
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    let cardTextElements = document.querySelectorAll('.card-text');
+    const MAX_WORDS = 50;
+
+    cardTextElements.forEach(function (element) {
+        truncateText(element, MAX_WORDS);
+    });
+});
+
+</script>
+            {% endfor %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+<!--============================
+=            Footer            =
+=============================-->
+
+{% endblock %}

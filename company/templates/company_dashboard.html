@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+        cursor: pointer; /* Add cursor pointer to indicate clickable */
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+    .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.small-button {
+    font-size: 12px;
+    padding: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+</style>
+<div class="container">
+  <div  class="row">
+    <div class="col-md-6">
+
+<h3>Calendar</h3>
+
+<div id="calendar-container"></div>
+</div>
+
+<br>
+  <br>
+  <br>
+    <br>
+        <div class="col-md-6" id="interviewsContainer">
+          {% for x in user_id %}
+          <br>
+            <div class="card newsletter-card bg-light">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h5 class="mb-3 text-black">{{x.application_id.job_id.company_id.company_name}}  - {{x.application_id.job_id.designation}}</h5>
+                        </div>
+                    </div>
+                      <br>
+                    <a >
+                        <h6 style="margin-top:-25px" class="mb-3 text-black">{{x.interview_date}}</h6>
+                    </a>
+                  
+                        <p>Candidate: {{ x.application_id.user_id.email}}
+                    <p>Star Time: {{x.start_time}} &nbsp;&nbsp;&nbsp; End Time: {{x.end_time}}
+                        <br>
+                    </p>
+                    <p style="font:small;">Mode Of Interview : {{x.mode_of_interview}} </p>
+                    <div class="position-absolute" style="bottom: 40px; right: 20px;"></div>
+                </div>
+            </div>
+              {% endfor %}
+        </div>
+
+</div>
+
+</div>
+
+<script>
+    let currentYear = new Date().getFullYear();
+
+    let currentMonth = new Date().getMonth();
+    let user_id = JSON.parse('{{ user_id_data|safe }}');
+
+  // You can set the initial month here (Note: Month is zero-based)
+
+    function generateCalendar(year, month) {
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+        const container = document.getElementById("calendar-container");
+        container.innerHTML = "";
+
+        // Create header with month and year
+        const header = document.createElement("div");
+        header.classList.add("calendar-header");
+        header.innerHTML = `
+        <div class="calendar-header">
+  <button class="small-button" onclick="prevMonth()">❮</button>
+  <h6>${getMonthName(month)} ${year}</h6>
+  <button class="small-button" onclick="nextMonth()">❯</button>
+</div>
+
+        `;
+        container.appendChild(header);
+
+        const table = document.createElement("table");
+        const body = table.createTBody();
+
+        // Create header row with day names
+        const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const headerRow = body.insertRow();
+        dayNames.forEach(day => {
+            const th = document.createElement("th");
+            th.textContent = day;
+            headerRow.appendChild(th);
+        });
+
+        // Create calendar days
+        // Create calendar days
+      let dayCount = 1;
+      for (let i = 0; i < 6; i++) {
+          const row = body.insertRow();
+          for (let j = 0; j < 7; j++) {
+              if ((i === 0 && j < firstDayOfMonth) || dayCount > daysInMonth) {
+                  // Add empty cells before the first day and after the last day
+                  row.insertCell();
+              } else {
+                  const cell = row.insertCell();
+                  cell.textContent = dayCount;
+                  // Capture the current value of dayCount using a closure
+                  cell.addEventListener("click", (function (selectedDay) {
+                      return function () {
+                          handleDayClick(currentYear, currentMonth, selectedDay+1, user_id);
+                      };
+                  })(dayCount));
+                  dayCount++;
+              }
+          }
+      }
+
+        container.appendChild(table);
+    }
+
+    function getMonthName(month) {
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        return monthNames[month];
+    }
+
+    function prevMonth() {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar(currentYear, currentMonth);
+    }
+
+    function nextMonth() {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar(currentYear, currentMonth);
+    }
+
+    // Function to fetch interview data from Django backend
+    // Function to handle the click event on a date
+  async function handleDayClick(year, month, day) {
+      const clickedDate = new Date(year, month, day);
+      const formattedClickedDate = clickedDate.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
+
+      try {
+          const response = await fetch(`/api/get-company-interviews/?date=${formattedClickedDate}`);
+          if (!response.ok) {
+              throw new Error('Network response was not ok.');
+          }
+          const interviewsForDate = await response.json();
+
+          const interviewsContainer = document.getElementById('interviewsContainer');
+          interviewsContainer.innerHTML = ''; // Clear previous content
+
+          if (interviewsForDate.length > 0) {
+              interviewsForDate.forEach(interview => {
+                  const card = document.createElement('div');
+                  card.classList.add('card');
+
+                  const cardBody = document.createElement('div');
+                  cardBody.classList.add('card-body');
+
+                  // Create elements for interview details
+                  const interviewDate = document.createElement('p');
+                  interviewDate.textContent = `Date: ${interview.interview_date}`;
+
+                  const company = document.createElement('p');
+                  company.textContent = `Company: ${interview.application_id__job_id__company_id__company_name}`;
+
+                  const designation = document.createElement('p');
+                  designation.textContent = `Designation: ${interview.application_id__job_id__designation}`;
+
+                  const email = document.createElement('p');
+                  email.textContent = `Email: ${interview.application_id__user_id__email}`;
+
+                  const startTime = document.createElement('p');
+                  startTime.textContent = `Start Time: ${interview.start_time}`;
+
+                  const endTime = document.createElement('p');
+                  endTime.textContent = `End Time: ${interview.end_time}`;
+
+                  const modeOfInterview = document.createElement('p');
+                  modeOfInterview.textContent = `Mode of Interview: ${interview.mode_of_interview}`;
+                  const viewDetailsButton = document.createElement('button');
+                  viewDetailsButton.textContent = 'Reschedule';
+                  viewDetailsButton.classList.add('btn', 'btn-primary');
+                  // Append interview details to card body
+                  cardBody.appendChild(interviewDate);
+                  cardBody.appendChild(company);
+                  cardBody.appendChild(designation);
+                  cardBody.appendChild(email);
+                  cardBody.appendChild(startTime);
+                  cardBody.appendChild(endTime);
+                  cardBody.appendChild(modeOfInterview);
+                  cardBody.appendChild(viewDetailsButton);
+
+                  card.appendChild(cardBody);
+                  interviewsContainer.appendChild(card);
+              });
+          } else {
+              const noEventsMessage = document.createElement('p');
+              noEventsMessage.textContent = `No scheduled interviews for ${formattedClickedDate}`;
+              interviewsContainer.appendChild(noEventsMessage);
+          }
+      } catch (error) {
+          console.error('Error fetching interview data:', error);
+      }
+  }
+
+
+
+    // Example: display calendar for November 2023
+    generateCalendar(currentYear, currentMonth);  // Note: Month is zero-based
+
+    // You can replace the example values with Django variables if needed.
+</script>
+
+
+
+{% endblock %}

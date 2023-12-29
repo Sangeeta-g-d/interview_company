@@ -1,0 +1,244 @@
+{% extends 'home.html' %}
+{% block content %}
+  <style>
+    .small-image {
+      width: 90px; /* Adjust the width as needed */
+     height: 80px; /* Adjust the height as needed */
+     display: block;
+     margin: 10px auto; /* Adjust the height as needed */
+    }
+    #suggestionListJobTitle {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 0 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none; /* Hide the list initially */
+    }
+
+    #suggestionListJobTitle li {
+        padding: 8px 12px;
+        cursor: pointer;
+        color : white;
+    }
+
+    #suggestionListJobTitle li:hover {
+        background-color: #f2f2f2;
+          color:black;
+    }
+
+    </style>
+
+
+<section class="page-search">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Advance Search -->
+				<div class="advance-search nice-select-white">
+          <form method="GET" action="{% url 'search_results' %}">
+            <div class="form-row">
+              <div class="form-group col-xl-4 col-lg-3 col-md-6">
+ <input type="text" name="job_title" class="form-control my-2 my-lg-1" id="inputtext4" placeholder="Job Title">
+ <ul id="suggestionListJobTitle"></ul> <!-- Empty <ul> for displaying suggestions -->
+</div>
+              <div class="form-group col-lg-3 col-md-6">
+                <select  name="type" class="w-100 form-control mt-lg-1 mt-md-2">
+                  <option>Job Type</option>
+                  <option value="Full time">Full Time</option>
+                  <option value="Part time">Part Time</option>
+
+                </select>
+              </div>
+              <div class="form-group col-lg-3 col-md-6">
+                <input  name="keyword" type="text" class="form-control my-2 my-lg-1" id="inputLocation4" placeholder="Location">
+              </div>
+              <div class="form-group col-xl-2 col-lg-3 col-md-6 align-self-center">
+                <button style="background:white;" type="submit" class="btn active w-100">Search Now</button>
+              </div>
+            </div>
+          </form>
+				</div>
+			</div>
+		</div>
+	</div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#inputtext4').on('input', function() {
+        const keyword = $(this).val().trim();
+        const suggestionList = $('#suggestionListJobTitle');
+
+        if (keyword.length >= 2) {  // Adjust the minimum length for suggestions
+            $.ajax({
+                url: '/autocomplete-job-title/',  // Replace with your Django URL for job title suggestions
+                data: { keyword: keyword },
+                dataType: 'json',
+                success: function(response) {
+                    const suggestions = response.suggestions;
+                    suggestionList.empty(); // Clear previous suggestions
+                    if (suggestions.length > 0) {
+                        suggestions.forEach(function(suggestion) {
+                            suggestionList.append(`<li>${suggestion}</li>`); // Append suggestions to the <ul>
+                        });
+                        suggestionList.show(); // Show the suggestion list
+                    } else {
+                        suggestionList.hide(); // Hide the suggestion list if no suggestions
+                    }
+                }
+            });
+        } else {
+            suggestionList.hide(); // Hide the suggestion list if input length is less than 2
+        }
+    });
+
+    // Handle click on suggestion and populate the input field
+    $('body').on('click', '#suggestionListJobTitle li', function() {
+        const suggestionText = $(this).text();
+        $('#inputtext4').val(suggestionText);
+        $('#suggestionListJobTitle').hide(); // Hide the suggestion list after selecting a suggestion
+    });
+});
+</script>
+</section>
+<section class="section-sm">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="search-result bg-gray">
+					<h2>Results For {{ selected_department }}</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-md-4">
+				<div class="category-sidebar">
+					<div class="widget category-list">
+	<h4 class="widget-header">All Departments</h4>
+	<ul class="category-list">
+      {% for department, count in department_open_counts %}
+		<li><a href="{% url 'job_list' department|urlencode %}">{{ department }}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+
+<div class="widget category-list">
+	<h4 class="widget-header">Work Mode</h4>
+	<ul class="category-list">
+
+		<li><a href="{% url 'work_mode' 'Work Form Office' %}">Work from Office</a></li>
+    <li><a href="{% url 'work_mode' 'hybride' %}">Hybride</a></li>
+    <li><a href="{% url 'work_mode' 'remote' %}">Remote</a></li>
+
+	</ul>
+</div>
+				</div>
+			</div>
+			<div class="col-lg-9 col-md-8">
+
+				<!-- ad listing list  -->
+        {% for x in all_jobs %}
+				<div class="ad-listing-list mt-20">
+    <div class="row p-lg-3 p-sm-5 p-4">
+        <div class="col-lg-4 align-self-center">
+          {% if x.company_id.first_name %}
+            <a href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}">
+                <img class="small-image card-img-top img-fluid" src="/{{x.company_id.profile}}" alt="">
+            </a>
+            {% else %}
+            <a href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}">
+                <img class="small-image card-img-top img-fluid" src="/{{x.company_id.profile}}" alt="">
+            </a>
+            {% endif %}
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-7 col-md-10">
+                    <div class="ad-listing-content">
+                        <div>
+                            <a href="single.html" class="font-weight-bold">{{x.designation}}</a>
+                        </div>
+                        <ul class="list-inline mt-2 mb-3">
+                            <li class="list-inline-item"><a href="category.html"> <i class="fa fa-folder-open-o"></i> {{x.job_type}}</a></li>
+                            <li class="list-inline-item"><a href="category.htm"><i class="fa fa-map-marker"></i> {{x.location}}</a></li>
+                        </ul>
+                        <p class="card-text">Required Skills : {{ x.mandatory_skills }}</p>
+                        {% if x.company_id.first_name %}
+                    <a href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}" class="read-more-link">Know More</a>
+                    {% else %}
+                    <a href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}" class="read-more-link">Know More</a>
+                    {% endif %}
+                    <script type="text/javascript">
+                    // Function to truncate text and show "Know More" link if necessary
+                    function truncateText(element, maxLength) {
+                        let text = element.textContent.trim();
+                        if (text.length > maxLength) {
+                            let truncatedText = text.slice(0, maxLength) + '...';
+                            element.textContent = truncatedText;
+
+                            let readMoreLink = element.nextElementSibling; // Assuming the link is the next sibling
+                            readMoreLink.style.display = 'inline'; // Show the "Know More" link
+                        }
+                    }
+
+                    document.addEventListener("DOMContentLoaded", function() {
+                        let cardTextElements = document.querySelectorAll('.card-text');
+                        const MAX_WORDS = 80;
+
+                        cardTextElements.forEach(function (element) {
+                            truncateText(element, MAX_WORDS);
+                        });
+                    });
+
+                    </script>
+
+                    </div>
+                </div>
+                <div class="col-lg-5 align-self-center">
+                    <div class="product-ratings float-lg-right pb-3">
+                      <p class="pr-5">Posted {{x.days_posted_ago}} days ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+				<!-- ad listing list  -->
+
+				<!-- pagination
+				<div class="pagination justify-content-center py-4">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item">
+								<a class="page-link" href="ad-list-view.html" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+									<span class="sr-only">Previous</span>
+								</a>
+							</li>
+							<li class="page-item"><a class="page-link" href="ad-list-view.html">1</a></li>
+							<li class="page-item active"><a class="page-link" href="ad-list-view.html">2</a></li>
+							<li class="page-item"><a class="page-link" href="ad-list-view.html">3</a></li>
+							<li class="page-item">
+								<a class="page-link" href="ad-list-view.html" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+									<span class="sr-only">Next</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>-->
+				<!-- pagination -->
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--============================
+=            Footer            =
+=============================-->
+
+{% endblock %}
