@@ -40,7 +40,8 @@ from urllib.parse import unquote
 from operator import attrgetter
 
 def demo(request):
-    return render(request,'demo.html')
+    return render(request,'components.html')
+
 
 def index(request):
     recent_agency_jobs = AgencyJobDetails.objects.all().order_by('-created_on')[:5]
@@ -917,8 +918,8 @@ def user_dashboard1(request):
     print("**********",r_jobs)
 
     # Fetch saved job IDs for the current user from both models
-    saved_agency_jobs_ids = AgencyJobSaved.objects.filter(user_id=request.user.id).values_list('job_id_id','companyIdOrAgencyId', flat=True)
-    saved_company_jobs_ids = CompanyJobSaved.objects.filter(user_id=request.user.id).values_list('job_id_id','companyIdOrAgencyId', flat=True)
+    saved_agency_jobs_ids = AgencyJobSaved.objects.filter(user_id=request.user.id).values_list('job_id_id', flat=True)
+    saved_company_jobs_ids = CompanyJobSaved.objects.filter(user_id=request.user.id).values_list('job_id_id', flat=True)
     saved_job_ids = list(saved_agency_jobs_ids) + list(saved_company_jobs_ids)
 
     for x in combined_recommended_jobs:
