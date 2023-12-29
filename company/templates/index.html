@@ -2,7 +2,7 @@
 {% block content %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="...">
-
+<link href="/static/assets2/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <style>
   .section {
     overflow-x: hidden;
@@ -37,33 +37,33 @@
     background-color: #f2f2f2;
 }
 
-.about {
+.about1 {
   --background-color: #f4f4f4;
 }
 
-.about .content h3 {
+.about1 .content h3 {
   font-size: 16px;
   font-weight: 500;
   line-height: 19px;
   padding: 10px 20px;
-  background: rgba(var(--primary-color-rgb), 0.05);
-  color: var(--primary-color);
+  background: rgba(232, 69, 69, 0.05);
+  color: #e84545;
   border-radius: 7px;
   display: inline-block;
 }
 
-.about .content h2 {
+.about1 .content h2 {
   font-weight: 700;
 }
 
-.about .content p:last-child {
+.about1 .content p:last-child {
   margin-bottom: 0;
 }
 
-.about .content .read-more {
-  background: var(--primary-color);
-  color: var(--contrast-color);
-  font-family: var(--heading-font);
+.about1 .content .read-more {
+  background: #e84545;
+  color: #ffffff;
+  font-family: "Montserrat", sans-serif;;
   font-weight: 500;
   font-size: 16px;
   letter-spacing: 1px;
@@ -75,23 +75,23 @@
   justify-content: center;
 }
 
-.about .content .read-more i {
+.about1 .content .read-more i {
   font-size: 18px;
   margin-left: 5px;
   line-height: 0;
   transition: 0.3s;
 }
 
-.about .content .read-more:hover {
-  background: rgba(var(--primary-color-rgb), 0.8);
+.about1 .content .read-more:hover {
+  background: #e84545;
   padding-right: 19px;
 }
 
-.about .content .read-more:hover i {
+.about1 .content .read-more:hover i {
   margin-left: 10px;
 }
 
-.about .icon-box {
+.about1 .icon-box {
   padding: 50px 40px;
   box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -99,7 +99,7 @@
   background-color: #fff;
 }
 
-.about .icon-box i {
+.about1 .icon-box i {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -110,27 +110,27 @@
   font-size: 32px;
   line-height: 0;
   transition: all 0.4s ease-out 0s;
-  background-color: rgba(var(--primary-color-rgb), 0.05);
-  color: var(--primary-color);
+  background-color: rgb(232, 69, 69, 0.05);
+  color: #e84545;
 }
 
-.about .icon-box h3 {
+.about1 .icon-box h3 {
   margin-bottom: 10px;
   font-size: 24px;
   font-weight: 700;
 }
 
-.about .icon-box p {
+.about1 .icon-box p {
   margin-bottom: 0;
 }
 
-.about .icon-box:hover i {
-  background-color: var(--primary-color);
-  color: var(--contrast-color);
+.about1 .icon-box:hover i {
+  background-color:#e84545;
+  color: #ffffff;
 }
 
-.about .icon-boxes .col-md-6:nth-child(2) .icon-box,
-.about .icon-boxes .col-md-6:nth-child(4) .icon-box {
+.about1 .icon-boxes .col-md-6:nth-child(2) .icon-box,
+.about1 .icon-boxes .col-md-6:nth-child(4) .icon-box {
   margin-top: -40px;
 }
 
@@ -451,8 +451,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	</div>
 </section>
 
-<section id="about" class="about">
-
+<section id="about1" class="about1">
+    
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       <div class="row align-items-xl-center gy-5">
 
