@@ -48,7 +48,16 @@
 .fade-in-image.is-visible {
   opacity: 1; /* Make the image visible */
 }
-
+.card-card1{
+  background-color: #fff;
+  border-radius: 25px;
+  border-color: #fff;
+}
+.card-card1:hover {
+    /* Apply gradient background on hover */
+    background-image: linear-gradient(to bottom right, #faf9f6, #e6c3f3);
+    /* Adjust the gradient colors and direction as needed */
+}
 
 
   </style>
@@ -314,7 +323,7 @@ $(document).ready(function() {
     });
   });
 </script>
-<section id="about1" style="margin-bottom: 110px;" class="about1">
+<section id="about1" style="margin-bottom: 50px;" class="about1">
     
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="row align-items-xl-center gy-5">
@@ -390,128 +399,7 @@ $(document).ready(function() {
 
 </section><!-- End About Section -->
 <br>
-<section id="services" class="services enhanced-services">
-
-  <!--  Section Title -->
-  <div class="container section-title" data-aos="fade-up">
-    <h2>Enhanced Services</h2>
-    <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-  </div><!-- End Section Title -->
-
-  <div class="container">
-
-    <div class="row gy-4">
-
-      <div class="col-lg-6 enhanced-service" data-aos="fade-up" data-aos-delay="100">
-        <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
-          <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Lorem Ipsum</a></h4>
-            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
-          </div>
-        </div>
-      </div>
-      <!-- End Service Item -->
-
-      <div class="col-lg-6 enhanced-service" data-aos="fade-up" data-aos-delay="200">
-        <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
-          <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Dolor Sitema</a></h4>
-            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
-          </div>
-        </div>
-      </div><!-- End Service Item -->
-
-      <div class="col-lg-6 enhanced-service" data-aos="fade-up" data-aos-delay="300">
-        <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
-          <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Sed ut perspiciatis</a></h4>
-            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
-          </div>
-        </div>
-      </div><!-- End Service Item -->
-
-      <div class="col-lg-6 enhanced-service" data-aos="fade-up" data-aos-delay="400">
-        <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-binoculars"></i></div>
-          <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Magni Dolores</a></h4>
-            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-          </div>
-        </div>
-      </div><!-- End Service Item -->
-
-      <div class="col-lg-6 enhanced-service" data-aos="fade-up" data-aos-delay="500">
-        <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-brightness-high"></i></div>
-          <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Nemo Enim</a></h4>
-            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-          </div>
-        </div>
-      </div><!-- End Service Item -->
-
-      <div class="col-lg-6 enhanced-service" data-aos="fade-up" data-aos-delay="600">
-        <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week"></i></div>
-          <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Eiusmod Tempor</a></h4>
-            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
-          </div>
-        </div>
-      </div><!-- End Service Item -->
-
-    </div>
-
-  </div>
-
-</section><!-- End Services Section -->
-
-<!--==========================================
-=            All Category Section            =
-===========================================-->
-
-<section class=" section">
-	<!-- Container Start -->
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<!-- Section title -->
-				<div class="section-title">
-					<h2>All Categories</h2>
-					<p>Connecting Talent with Opportunity</p>
-				</div>
-        <div class="row">
-      {% for department, count in department_open_counts %}
-      <div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
-          <div class="category-block" style="width: 250px; height: 200px;"> <!-- Adjust width and height as needed -->
-              <div class="header">
-                  <i class="fa fa-briefcase icon-bg-5"></i>
-                  <h4>{{ department }}</h4>
-              </div>
-              <ul class="category-list">
-                  <li><a href="{% url 'job_list' department|urlencode %}">Active Jobs <span>{{ count }}</span></a></li>
-              </ul>
-          </div>
-      </div>
-      {% empty %}
-      <p>No departments found.</p>
-      {% endfor %}
-  </div>
-
-
-			</div>
-		</div>
-	</div>
-	<!-- Container End -->
-</section>
-
-
-
-
-	<!-- hiring partners -->
+<!-- hiring partners -->
 <section class="popular-deals section bg-gray">
 	<div class="container">
 		<div class="row">
@@ -530,13 +418,13 @@ $(document).ready(function() {
 					<div class="col-sm-12 col-lg-4">
 						<!-- product card -->
 
-<div class="product-item bg-light">
-	<div class="card">
+<div class="product-item product-item1">
+	<div class="card card-card1">
 		<div class="thumb-content">
 			<!-- <div class="price">$200</div> -->
 
 			<a href="single.html">
-				<img class="small-image card-img-top img-fluid" src="{{x.profile}}" alt="Card image cap">
+				<img class="small-image card-img-top img-fluid image-with-margin" src="{{x.profile}}" alt="Card image cap">
 			</a>
 
 
@@ -585,6 +473,129 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 	</div>
 </section>
+
+<section id="services" style="margin-top: 30px;" class="services">
+
+  <!--  Section Title -->
+  <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+    <h2>Services</h2>
+    <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+  </div><!-- End Section Title -->
+
+  <div class="container">
+
+    <div class="row gy-4">
+
+      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+        <div class="service-item d-flex">
+          <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
+          <div>
+            <h4 class="title"><a href="services-details.html" class="stretched-link">Lorem Ipsum</a></h4>
+            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+          </div>
+        </div>
+      </div>
+      <!-- End Service Item -->
+
+      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+        <div class="service-item d-flex">
+          <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
+          <div>
+            <h4 class="title"><a href="services-details.html" class="stretched-link">Dolor Sitema</a></h4>
+            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+          </div>
+        </div>
+      </div><!-- End Service Item -->
+
+      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+        <div class="service-item d-flex">
+          <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
+          <div>
+            <h4 class="title"><a href="services-details.html" class="stretched-link">Sed ut perspiciatis</a></h4>
+            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+          </div>
+        </div>
+      </div><!-- End Service Item -->
+
+      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
+        <div class="service-item d-flex">
+          <div class="icon flex-shrink-0"><i class="bi bi-binoculars"></i></div>
+          <div>
+            <h4 class="title"><a href="services-details.html" class="stretched-link">Magni Dolores</a></h4>
+            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+          </div>
+        </div>
+      </div><!-- End Service Item -->
+
+      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="500">
+        <div class="service-item d-flex">
+          <div class="icon flex-shrink-0"><i class="bi bi-brightness-high"></i></div>
+          <div>
+            <h4 class="title"><a href="services-details.html" class="stretched-link">Nemo Enim</a></h4>
+            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+          </div>
+        </div>
+      </div><!-- End Service Item -->
+
+      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="600">
+        <div class="service-item d-flex">
+          <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week"></i></div>
+          <div>
+            <h4 class="title"><a href="services-details.html" class="stretched-link">Eiusmod Tempor</a></h4>
+            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
+          </div>
+        </div>
+      </div><!-- End Service Item -->
+
+    </div>
+
+  </div>
+
+</section>
+<!--==========================================
+=            All Category Section            =
+===========================================-->
+
+<section class=" section">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<!-- Section title -->
+				<div class="section-title">
+					<h2>All Categories</h2>
+					<p>Connecting Talent with Opportunity</p>
+				</div>
+        <div class="row">
+      {% for department, count in department_open_counts %}
+      <div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
+          <div class="category-block" style="width: 250px; height: 200px;"> <!-- Adjust width and height as needed -->
+              <div class="header">
+                  <i class="fa fa-briefcase icon-bg-5"></i>
+                  <h4>{{ department }}</h4>
+              </div>
+              <ul class="category-list">
+                  <li><a href="{% url 'job_list' department|urlencode %}">Active Jobs <span>{{ count }}</span></a></li>
+              </ul>
+          </div>
+      </div>
+      {% empty %}
+      <p>No departments found.</p>
+      {% endfor %}
+  </div>
+
+
+			</div>
+		</div>
+	</div>
+	<!-- Container End -->
+</section>
+
+
+
+
+	<!-- hiring partners -->
+
 
 <br>
 <br>

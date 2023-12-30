@@ -106,7 +106,7 @@
   /* Services Section - Home Page
 
 ------------------------------*/
-#services{
+
 .services .service-item {
     position: relative;
     padding-top: 40px;
@@ -181,7 +181,7 @@
     line-height: 24px;
     font-size: 14px;
   }
-}
+
 
 .faq .content h3 {
   font-weight: 400;
