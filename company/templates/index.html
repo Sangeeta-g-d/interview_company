@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="...">
 <link href="/static/assets2/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 <link href="/static/assets2/css/specific.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 <style>
+  
   .section {
     overflow-x: hidden;
 }
@@ -37,11 +39,23 @@
 #suggestionListJobTitle li:hover {
     background-color: #f2f2f2;
 }
+.fade-in-image {
+  opacity: 0; /* Initially, the image is invisible */
+  transition: opacity 1s ease-in-out; /* Smooth transition for opacity change over 1 second */
+}
+
+/* Fade-in animation triggered when the element is in view */
+.fade-in-image.is-visible {
+  opacity: 1; /* Make the image visible */
+}
 
 
 
   </style>
-
+ <script>
+  // Include AOS library code directly here
+  !function(){var e=document.createElement("script");e.src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js",e.setAttribute("data-aos-easing","ease-in-out"),e.setAttribute("data-aos-duration","1000"),document.head.appendChild(e)}();
+</script>
 <!--===============================
 =            Hero Area            =
 ================================-->
@@ -228,16 +242,27 @@ $(document).ready(function() {
 		</div>
 	</div>
 </section>
-<section id="about1" class="about1 mb-4">
+<script>
+  // AOS initialization
+  document.addEventListener("DOMContentLoaded", function() {
+    AOS.init({
+      offset: 120,
+      duration: 1000,
+      easing: 'ease-in-out',
+      delay: 200,
+      once: true,
+      // ... other options
+    });
+  });
+</script>
+<section id="about1" style="margin-bottom: 110px;" class="about1">
     
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="row align-items-xl-center gy-5">
 
       <div class="col-xl-5 content">
-        
-        <h1>Popular searches</h1>
-        <p>Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
-        <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+        <h1 style="font-weight:800; font-size: 50px;">Discover the Search Trends.</h1>
+        <img  style="margin-left: -180px;" src="/static/assets2/img/girl-img.png" alt="Image Description">
       </div>
 
       <div class="col-xl-7">
