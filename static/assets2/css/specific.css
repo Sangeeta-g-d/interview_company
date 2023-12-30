@@ -181,33 +181,3 @@
     line-height: 24px;
     font-size: 14px;
   }
-}
-/* enhanced-styles.css */
-.enhanced-services {
-  background-color: #f9f9f9;
-  padding: 50px 0;
-  /* Add more styles as needed */
-}
-
-.enhanced-service {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
-}
-
-.enhanced-service:hover {
-  transform: translateY(-5px);
-}
-
-/* Style changes on hover or other interactions */
-.enhanced-service .title a {
-  color: #333;
-  text-decoration: none;
-}
-
-.enhanced-service .title a:hover {
-  color: #ff6600;
-}
-
-/* Add more specific styles for your enhanced sections */

@@ -235,7 +235,7 @@ $(document).ready(function() {
 
       <div class="col-xl-5 content">
         
-        <h2>Ducimus rerum libero reprehenderit cumque</h2>
+        <h1>Popular searches</h1>
         <p>Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
         <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
       </div>
@@ -245,7 +245,7 @@ $(document).ready(function() {
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="icon-box">
-              <i class="bi bi-buildings"></i>
+              <i class="fas fa-search"></i>
               <h3>Eius provident</h3>
               <p>Magni repellendus vel ullam hic officia accusantium ipsa dolor omnis dolor voluptatem</p>
             </div>
@@ -253,7 +253,7 @@ $(document).ready(function() {
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="icon-box">
-              <i class="bi bi-clipboard-pulse"></i>
+              <i class="fas fa-briefcase"></i>
               <h3>Rerum aperiam</h3>
               <p>Autem saepe animi et aut aspernatur culpa facere. Rerum saepe rerum voluptates quia</p>
             </div>
@@ -261,7 +261,7 @@ $(document).ready(function() {
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
             <div class="icon-box">
-              <i class="bi bi-command"></i>
+              <i class="fas fa-user-tie"></i>
               <h3>Veniam omnis</h3>
               <p>Omnis perferendis molestias culpa sed. Recusandae quas possimus. Quod consequatur corrupti</p>
             </div>
@@ -269,7 +269,7 @@ $(document).ready(function() {
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
             <div class="icon-box">
-              <i class="bi bi-graph-up-arrow"></i>
+              <i class="fas fa-location-arrow"></i>
               <h3>Delares sapiente</h3>
               <p>Sint et dolor voluptas minus possimus nostrum. Reiciendis commodi eligendi omnis quideme lorenda</p>
             </div>
@@ -479,6 +479,24 @@ document.addEventListener("DOMContentLoaded", function() {
 	</div>
 </section>
 
+<br>
+<br>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      item.addEventListener('click', () => {
+        // Toggle the active class on the clicked item
+        item.classList.toggle('faq-active');
+
+        // Toggle the visibility of the content
+        const content = item.querySelector('.faq-content');
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  });
+</script>
 <section id="faq" class="faq">
 
     <div class="container">
@@ -546,7 +564,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   </section><!-- End Faq Section -->
 
-
+<br>
+<br>
 
 <!--====================================
 =            Call to Action            =
