@@ -289,3 +289,48 @@
   color:#fff; /* Change this to the desired button text color on hover */
   background-color:#844FC1;/* Change this to the desired button background color on hover */
 }
+
+.clients {
+  padding: 10px 0;
+}
+
+.clients .client-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.clients .client-logo img {
+  padding: 40px;
+  max-width: 80%;
+  transition: 0.3s;
+  opacity: 0.5;
+  filter: grayscale(100);
+}
+
+.clients .client-logo img:hover {
+  filter: none;
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .clients .client-logo img {
+    padding: 20px;
+  }
+}
+
+.highlight-button:hover {
+  /* Add your hover styles here */
+  
+  background-color: white; /* Change to your desired hover background color */
+  color: red; /* Change to your desired hover text color */
+  /* Add any other styles you want to change on hover */
+}
+.highlight-button {
+ height:40px;
+ width: 4cm;
+  border: none;
+  border-radius: 12px; /* Set the border for the normal state */
+  /* Add any other styles for the normal state */
+}
