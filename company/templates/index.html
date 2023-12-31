@@ -75,32 +75,11 @@
 		<div class="row">
 			<div class="col-md-12">
 				<!-- Header Contetnt -->
-				<div class="content-block">
+				<div data-aos="fade-up" data-aos-delay="100" class="content-block">
 					<h1>From Applications to Offers</h1>
 					<p>your one-stop platform for efficient and streamlined job application and hiring processes.<br>
            Simplifying the recruitment journey for all stakeholders involved.</p>
-					<div class="short-popular-category-list text-center">
-
-            	<h2>Popular Keywords</h2>
-						<ul class="list-inline">
-							<li class="list-inline-item">
-								<a href="{% url 'search_results' %}?keyword=Python">Python</a></li>
-							<li class="list-inline-item">
-								<a href="{% url 'search_results' %}?keyword=Web%20Development">Web Development</a>
-							</li>
-							<li class="list-inline-item">
-								<a href="{% url 'search_results' %}?keyword=Software%20Engineer">Software Engineer</a>
-							</li>
-							<li class="list-inline-item">
-								<a href="{% url 'search_results' %}?keyword=Data%20Analyst">Data Analyst</a>
-							</li>
-              <li class="list-inline-item">
-                <a href="{% url 'search_results' %}?keyword=Security%20Analyst">Security Analyst</a>
-              </li>
-
-						</ul>
-					</div>
-
+					
 				</div>
 				<!-- Advance Search -->
 				<div class="advance-search">
@@ -261,8 +240,8 @@ $(document).ready(function() {
 					<div class="col-sm-12 col-lg-4">
 						<!-- product card -->
 
-<div class="product-item bg-light">
-	<div class="card">
+<div class="product-item product-item1">
+	<div class="card card-card1">
 		<div class="thumb-content">
 			<!-- <div class="price">$200</div> -->
       {% if x.company_id.first_name%}
@@ -400,9 +379,9 @@ $(document).ready(function() {
 </section><!-- End About Section -->
 <br>
 <!-- hiring partners -->
-<section class="popular-deals section bg-gray">
+<section class="popular-deals section bg-gray" >
 	<div class="container">
-		<div class="row">
+		<div class="row" data-aos="fade-left" data-aos-anchor-placement="top-center">
 			<div class="col-md-12">
 				<div class="section-title">
 					<h2>Hiring Partners</h2>
@@ -412,7 +391,7 @@ $(document).ready(function() {
 		</div>
 		<div class="row">
 			<!-- offer 01 -->
-			<div class="col-lg-12">
+			<div class="col-lg-12"data-aos="fade-left" data-aos-anchor-placement="top-center">
 				<div class="trending-ads-slide">
             {% for x in hiring_partners %}
 					<div class="col-sm-12 col-lg-4">
@@ -474,10 +453,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	</div>
 </section>
 
-<section id="services" style="margin-top: 30px;" class="services">
+<section id="services" style="margin-top: 50px;" class="services">
 
   <!--  Section Title -->
-  <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+  <div class="container section-title" data-aos="fade-up">
     <h2>Services</h2>
     <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
   </div><!-- End Section Title -->
@@ -486,7 +465,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <div class="row gy-4">
 
-      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="100">
         <div class="service-item d-flex">
           <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
           <div>
@@ -497,7 +476,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </div>
       <!-- End Service Item -->
 
-      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+      <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="200">
         <div class="service-item d-flex">
           <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
           <div>
@@ -507,7 +486,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
       </div><!-- End Service Item -->
 
-      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+      <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="300">
         <div class="service-item d-flex">
           <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
           <div>
@@ -517,7 +496,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
       </div><!-- End Service Item -->
 
-      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
+      <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="400">
         <div class="service-item d-flex">
           <div class="icon flex-shrink-0"><i class="bi bi-binoculars"></i></div>
           <div>
@@ -527,7 +506,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
       </div><!-- End Service Item -->
 
-      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="500">
+      <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="500">
         <div class="service-item d-flex">
           <div class="icon flex-shrink-0"><i class="bi bi-brightness-high"></i></div>
           <div>
@@ -537,7 +516,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
       </div><!-- End Service Item -->
 
-      <div class="col-lg-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="600">
+      <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="600">
         <div class="service-item d-flex">
           <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week"></i></div>
           <div>
@@ -551,14 +530,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
   </div>
 
-</section>
+</section><!-- End Services Section -->
+
 <!--==========================================
 =            All Category Section            =
 ===========================================-->
 
 <section class=" section">
 	<!-- Container Start -->
-	<div class="container">
+	<div class="container" data-aos="fade-right" data-aos-anchor-placement="top-center">
 		<div class="row">
 			<div class="col-12">
 				<!-- Section title -->
@@ -566,7 +546,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					<h2>All Categories</h2>
 					<p>Connecting Talent with Opportunity</p>
 				</div>
-        <div class="row">
+        <div class="row" data-aos="fade-right" data-aos-anchor-placement="top-center">
       {% for department, count in department_open_counts %}
       <div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
           <div class="category-block" style="width: 250px; height: 200px;"> <!-- Adjust width and height as needed -->
@@ -615,7 +595,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 </script>
-<section id="faq" class="faq">
+<section style="margin-top: -30px;" id="faq" class="faq">
 
     <div class="container">
 
@@ -623,9 +603,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
           <div class="content px-xl-5">
-            <h3><span>Prepare for your next interview </span><strong>Questions</strong></h3>
+            <h3><span>Prepare for your next interview <strong>Questions</strong></h3>
            
           </div>
+          <img width="300px" src="/static/assets2/img/question.png" alt="">
         </div>
 
         <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
