@@ -2059,3 +2059,58 @@ def saved_jobs(request):
     context = {'obj':obj,'today_date':today_date
     ,'department_open_counts':department_open_counts,'all_saved_jobs':all_saved_jobs}
     return render(request,'saved_jobs.html',context)
+
+
+def freshers_jobs(request):
+    job_details = JobDetails.objects.filter(experience='Fresher', status='open')
+    print("##########",job_details)
+    agency_job_details = AgencyJobDetails.objects.filter(experience='Fresher', status='open')
+    print("##########",agency_job_details)
+    all_jobs = list(chain(job_details, agency_job_details))
+    for job in all_jobs:
+        today = datetime.now().date()  # Define 'today' here for each iteration
+        days_posted_ago = (today - job.created_on).days
+        job.days_posted_ago = days_posted_ago
+
+    # Sort the combined queryset based on days posted (latest at the top)
+    all_jobs = sorted(all_jobs, key=lambda x: x.created_on, reverse=True)
+    print("%%%%%%%%",all_jobs)
+    unique_departments_agency = AgencyJobDetails.objects.values_list('department', flat=True).distinct()
+    unique_departments_job = JobDetails.objects.values_list('department', flat=True).distinct()
+    all_unique_departments = list(set(chain(unique_departments_agency, unique_departments_job)))
+
+    open_status_count_job = (
+        JobDetails.objects.filter(status='open')
+        .values('department')
+        .annotate(open_count=Count('department'))
+    )
+
+    open_status_count_agency = (
+        AgencyJobDetails.objects.filter(status='open')
+        .values('department')
+        .annotate(open_count=Count('department'))
+    )
+
+    open_jobs_count = defaultdict(int)
+    for item in open_status_count_job:
+        open_jobs_count[item['department']] += item['open_count']
+
+    for item in open_status_count_agency:
+        open_jobs_count[item['department']] += item['open_count']
+
+    department_open_counts = [
+        (department, open_jobs_count.get(department, 0)) for department in all_unique_departments
+    ]
+    print("^^^^^^^^^^^^^^^^",department_open_counts)
+    work_modes = AgencyJobDetails.objects.values_list('work_mode', flat=True).distinct()
+
+    context = {
+        'all_jobs': all_jobs,
+       
+        'department_open_counts':department_open_counts,
+        'work_modes':work_modes,
+    }
+
+    
+
+    return render(request,'freshers_jobs.html')
