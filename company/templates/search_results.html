@@ -99,6 +99,13 @@ $(document).ready(function() {
 });
 </script>
 </section>
+<style>
+  .product-item:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a box shadow when hovering */
+      transform: translateY(-20px); /* Move the card slightly up when hovering */
+      transition: box-shadow 0.7s ease, transform 0.7s ease; /* Add a smooth transition effect */
+  }
+</style>
 <section class="section-sm">
 	<div class="container">
 		<div class="row">
@@ -164,6 +171,15 @@ $(document).ready(function() {
 
 </h4>
 		    <ul class="list-inline product-meta">
+          {% if x.company_id.first_name %}
+          <li class="list-inline-item">
+		    	{{x.company_id.first_name}}
+		    	</li><br>
+          {% else %}
+          <li class="list-inline-item">
+            {{x.company_id.company_name}}
+          </li><br>
+          {% endif %}
 		    	<li class="list-inline-item">
 		    	<i class="fas fa-stopwatch"></i>{{x.job_type}}
 		    	</li>

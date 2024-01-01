@@ -2159,7 +2159,20 @@ def freshers_jobs(request):
         'department_open_counts':department_open_counts,
         'work_modes':work_modes,
     }
-
-    
-
     return render(request,'freshers_jobs.html')
+
+def single_job1(request,job_id,u_id):
+    job = AgencyJobDetails.objects.select_related('company_id').filter(id=job_id, status="open").first()
+    details = NewUser.objects.filter(user_type="Agency",id=u_id)
+    print("@@@@@@@@@@@@@@@@@@@@",details)
+    if details:
+        print("HIiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+    else:
+        job = JobDetails.objects.select_related('company_id').filter(id=job_id, status="open").first()
+        print("**********************",job.designation)
+    context = {
+
+        'job': job,
+
+    }
+    return render(request, 'single_job1.html',context)
