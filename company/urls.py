@@ -22,6 +22,7 @@ urlpatterns = [
     path('work_mode/<str:selected_work_mode>/', views.work_mode, name='work_mode'),
     path('user_work_mode/<str:selected_work_mode>/', views.user_work_mode, name='user_work_mode'),
     path('login',views.login1,name='login1'),
+    path('add_company_details',views.add_company_details,name='add_company_details'),
     path('user_login',views.user_login,name='user_login'),
     path('company_dashboard',views.company_dashboard,name='company_dashboard'),
     path('job_vacancy',views.job_vacancy,name='job_vacancy'),

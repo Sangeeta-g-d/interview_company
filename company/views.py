@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden,HttpResponseBadRequest
 from django.template import loader
-from .models import NewUser, JobDetails, UserDetails, AppliedJobs, ApplicationStatus, ScheduleInterview, Agency_Company,AgencyJobDetails,AgencyAppliedJobs,AgencyApplicationStatus
+from .models import NewUser, JobDetails, UserDetails, AppliedJobs, CompanyDetails,ApplicationStatus, ScheduleInterview, Agency_Company,AgencyJobDetails,AgencyAppliedJobs,AgencyApplicationStatus
 from .models import AgencyScheduleInterview, AgencyJobSaved, CompanyJobSaved
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -825,6 +825,40 @@ def add_job(request):
         return redirect(reverse('job_vacancy') + '?success_message=1')
 
     return render(request,'add_job.html',context)
+
+def add_company_details(request):
+    i = request.user.id
+    obj = NewUser.objects.get(id=i)
+    today_date = date.today()
+    context = {'obj':obj,'today_date':today_date}
+    if request.method == 'POST':
+        tag_line = request.POST.get('tag_line')
+        company_type = request.POST.get('company_type')
+        service_sector = request.POST.get('service_sector')
+        founded_year = request.POST.get('founded_year')
+        head_branch = request.POST.get('head_branch')
+        linkedin = request.POST.get('linkedin')
+        instagram = request.POST.get('instagram')
+        facebook = request.POST.get('facebook')
+        website = request.POST.get('website')
+        highlights = request.POST.get('highlights')
+        why_us = request.POST.get('why_us')
+        milestone = request.POST.get('milestone')
+        img1 = request.FILES.get('img1')
+        img2 = request.FILES.get('img2')
+        cover_image = request.FILES.get('cover_image')
+
+        obj = CompanyDetails.objects.create(companyOrAgency_id_id=i,tag_line=tag_line,company_type=company_type,company_service_sector=service_sector,founded_year=founded_year,
+        head_branch=head_branch,linkedin_url=linkedin,instagram_url=instagram,
+        facebook=facebook,webiste=website,
+        Key_highlights=highlights,why_us=why_us,
+        milestone=milestone,
+        other_image1=img1,
+        other_image2=img2,cover_image=cover_image)
+
+        print(obj)
+
+    return render(request,'add_company_details.html',context)
 
 
 def delete_jobs(request, pk):
@@ -1928,6 +1962,12 @@ def remove_job(request, job_id, u_id):
 def company(request,id):
     print("iddddddddd",id)
     obj = NewUser.objects.get(id=id)
+    info = CompanyDetails.objects.filter(companyOrAgency_id_id=id).first()
+    c_img = info.cover_image
+    service_sector_list = info.company_service_sector.split(', ')
+    service_sector_list = [sector.strip() for sector in service_sector_list]
+    print(service_sector_list)
+    print(c_img)
     company_names = []
     company_jobs_dict = {}
 
@@ -1969,6 +2009,9 @@ def company(request,id):
         'company_names': company_names,
         'company_jobs_dict': company_jobs_dict,
         'obj': obj,
+        'info':info,
+        'c_img':c_img,
+        'service_sector_list':service_sector_list
     }
     return render(request,'company.html',context)
 

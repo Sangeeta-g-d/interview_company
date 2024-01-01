@@ -412,7 +412,7 @@ $(document).ready(function() {
       <h4 class="card-title"><a href="single.html">{{x.first_name}}</a></h4>
 
       <p class="card-text">{{ x.about }}</p>
-  <a href="/user_login" class="read-more-link">Know More</a>
+  <a href="{% url 'company' id=x.id %}" class="read-more-link">Know More</a>
 
 <script type="text/javascript">
 // Function to truncate text and show "Know More" link if necessary
@@ -574,7 +574,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-	<!-- hiring partners -->
 
 
 <br>

@@ -1,5 +1,7 @@
 {% extends 'home.html' %}
 {% block content %}
+<link href="/static/assets2/css/specific.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 <style media="screen">
 	.header {
 	  display: flex;
@@ -12,26 +14,65 @@
 	  margin-right: 10px; /* Adjust the space between the logo and text */
 	}
 
+	.image-box {
+    width: 50%;
+	margin-left: 35px; /* Set the box width to half of the container */
+    float: left; /* Align the box to the left */
+    box-sizing: border-box; /* Include padding and borders in the width */
+    position: relative; /* Set position to relative */
+}
+
+.image-box img {
+    width: 130px; /* Make the image fill the entire box */
+    height: 120px; /* Ensure the image doesn't have any unwanted spaces */
+    display: block; /* Ensure block-level display */
+    position: absolute; /* Set position to absolute */
+    top: 40px; /* Adjust the distance from the top as needed */
+}
+
+.bg-3 {
+  background: url("/{{ info.cover_image }}");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
 </style>
+<section class="hero-area bg-3 text-center overly mb-4">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Header Contetnt -->
+				<div data-aos="fade-up" data-aos-delay="100" class="content-block">
+					
+				</div>
+				<div class="image-box">
+					<img width="20px" height="100px" src="/{{obj.profile}}" alt="Your Image">
+				</div>				
+			</div>
+		</div>
+		
+	</div> <br> <br> <br> <br>
+  
+	<!-- Container End -->
+</section>
+
 <section class="blog single-blog section">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8">
 				<article class="single-post">
 					<div class="header">
-	  <img src="/{{obj.profile}}" alt="Logo" class="logo">
+	 
 	  <h2 style="margin-top:-27px;">{{obj.first_name}}</h2>
+	  
 	</div>
-					<ul class="list-inline">
-						<li class="list-inline-item"><i class="fa fa-map-marker"></i> {{obj.city}}, {{obj.state}}, {{obj.country}}</li>
-
-					</ul>
-
+	<p style="font-size: large;">"{{info.tag_line}}"</p>
+	<p style="font-size:larger; margin-top: -20px;"> {{info.company_service_sector}}</p>
+					
+					
+					  <br>
 					<p>{{obj.about}}</p>
-
-
-
 					<ul class="social-circle-icons list-inline">
 
 						<li class="list-inline-item text-center"><a class="fa fa-linkedin" href="#"></a></li>
