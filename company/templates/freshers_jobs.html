@@ -118,10 +118,11 @@ $(document).ready(function() {
 					<div class="widget category-list">
 	<h4 class="widget-header">All Departments</h4>
 	<ul class="category-list">
-      {% for department, count in department_open_counts %}
-		<li><a href="{% url 'freshers_jobs'  %}">{{ department }}</a></li>
-	{% endfor %}
-	</ul>
+        {% for department, count in department_open_counts %}
+            <li><a href="{% url 'freshers_jobs' %}">{{ department }}</a></li>
+        {% endfor %}
+    </ul>
+    
 </div>
 
 <div class="widget category-list">

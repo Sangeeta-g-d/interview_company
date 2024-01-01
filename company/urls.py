@@ -61,4 +61,5 @@ urlpatterns = [
     path('logout', views.company_logout, name='company_logout'),
     path('agency_logout', views.agency_logout, name='agency_logout'),
     path('freshers_jobs', views.freshers_jobs, name='freshers_jobs'),
+    path('single_job1', views.single_job1, name='single_job1'),
 ]

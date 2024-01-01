@@ -2110,7 +2110,7 @@ def freshers_jobs(request):
         'department_open_counts':department_open_counts,
         'work_modes':work_modes,
     }
-
-    
-
     return render(request,'freshers_jobs.html')
+
+def single_job1(request):
+    return render(request, 'single_job1.html')
