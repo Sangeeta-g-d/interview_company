@@ -43,6 +43,8 @@ def demo(request):
     return render(request,'components.html')
 
 
+
+
 def index(request):
     recent_agency_jobs = AgencyJobDetails.objects.all().order_by('-created_on')[:5]
     recent_jobs = JobDetails.objects.all().order_by('-created_on')[:5]
@@ -640,7 +642,7 @@ def registration(request):
         passw = make_password(password)
         user = NewUser.objects.create(first_name=company_name,username=username,password=passw,
         email=email,phone_no=contact_no,user_type=user_type, country=country,state=state,address=address,city=city,
-        profile=company_logo,about=about,email_password=email_password)
+        profile=company_logo,about=about)
         return redirect('login1')
     return render(request,'registration.html')
 
@@ -815,7 +817,8 @@ def add_job(request):
         salary = request.POST.get('salary')
         status = request.POST.get('status')
         description = request.POST.get('description')
-
+        state = request.POST.get('state')
+        country = request.POST.get('country')
         obj = JobDetails.objects.create(company_id_id=i,designation=designation,department=department,location=location,work_mode=work_mode,
         no_of_vacancy=no_of_vacancy,mandatory_skills=mandatory_skills,optional_skills=optional_skills,
         qualification=qualification,experience=experience,
@@ -1964,22 +1967,23 @@ def company(request,id):
     obj = NewUser.objects.get(id=id)
     info = CompanyDetails.objects.filter(companyOrAgency_id_id=id).first()
     c_img = info.cover_image
-    service_sector_list = info.company_service_sector.split(', ')
-    service_sector_list = [sector.strip() for sector in service_sector_list]
-    print(service_sector_list)
-    print(c_img)
+    print(info.other_image1)
+    
     company_names = []
     company_jobs_dict = {}
 
     if obj.user_type == 'Company':
         # If the user is a company, retrieve jobs related to that company
         jobs = JobDetails.objects.filter(company_id_id=id)
-        company_names = [obj.first_name]  # Assuming company_name exists in the NewUser model
+        company_names = [obj.first_name]
+        display_jobs = JobDetails.objects.filter(company_id_id=id)  # Assuming company_name exists in the NewUser model
         # Additional logic for companies if needed
     else:
+        display_jobs = AgencyJobDetails.objects.filter(company_id_id=id)
         # If the user is not a company, assume it's an agency and retrieve jobs related to that agency
         # Fetch unique company names and associated job details for agencies
         companies_with_jobs = (
+            
             AgencyJobDetails.objects.filter(agency_id_id=id)
             .values('company_id__company_name', 'designation', 'no_of_vacancy')
             .distinct()
@@ -2004,6 +2008,7 @@ def company(request,id):
             print(x)
         jobs = None  # No direct jobs to display for agencies
 
+    
     context = {
         'jobs': jobs,
         'company_names': company_names,
@@ -2011,7 +2016,8 @@ def company(request,id):
         'obj': obj,
         'info':info,
         'c_img':c_img,
-        'service_sector_list':service_sector_list
+        'display_jobs':display_jobs
+        
     }
     return render(request,'company.html',context)
 

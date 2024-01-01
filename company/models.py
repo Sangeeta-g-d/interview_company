@@ -15,7 +15,7 @@ class NewUser(AbstractUser):
     city = models.CharField(max_length=100, default='hubli')
     about = models.CharField(max_length=1000, default='about')
     profile = models.ImageField(upload_to='uploaded_images/',default="profile")
-    email_password = models.CharField(max_length=400,default='password')
+    
 
 class CompanyDetails(models.Model):
     companyOrAgency_id=models.ForeignKey('NewUser', on_delete=models.CASCADE)
@@ -74,6 +74,8 @@ class AgencyJobDetails(models.Model):
     created_on = models.DateField(auto_now_add = True)
     status = models.CharField(max_length=10, default='open')
     job_type = models.CharField(max_length=100, default='Full time')
+    country = models.CharField(max_length=300, default='India')
+    state = models.CharField(max_length=300, default='Karnataka')
 
 
 class JobDetails(models.Model):
@@ -92,6 +94,8 @@ class JobDetails(models.Model):
     created_on = models.DateField(auto_now_add = True)
     status = models.CharField(max_length=10, default='open')
     job_type = models.CharField(max_length=100, default='Full time')
+    country = models.CharField(max_length=300, default='India')
+    state = models.CharField(max_length=300, default='Karnataka')
 
 
 class UserDetails(models.Model):

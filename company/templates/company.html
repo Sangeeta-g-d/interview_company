@@ -35,6 +35,39 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+.heading-container {
+    display: flex;
+}
+
+.heading-item {
+    margin-right: 50px;
+	font-weight: 600; /* Adjust spacing between headings */
+}
+.heading-item.active {
+    color: #844FC1;
+    border-bottom: 3px solid #844FC1;
+}
+
+/* Style the anchor tag (optional) */
+.heading-link {
+    text-decoration: none;
+}
+
+.salary-job li {
+    display: inline-block;
+    margin-right: 20px; /* Adjust spacing between the items as needed */
+}
+/* Link Styles */
+.apply-now {
+    color: #844FC1; /* Purple color */
+    text-decoration: none;
+	font-weight: 700;
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.apply-now:hover {
+    color: black; /* Darker purple color on hover */
+}
 
 </style>
 <section class="hero-area bg-3 text-center overly mb-4">
@@ -68,14 +101,45 @@
 	  
 	</div>
 	<p style="font-size: large;">"{{info.tag_line}}"</p>
-	<p style="font-size:larger; margin-top: -20px;"> {{info.company_service_sector}}</p>
+	<p style="font-size:16px; margin-top: -20px;"> {{info.company_service_sector}}</p>
 					
-					
-					  <br>
-					<p>{{obj.about}}</p>
-					<ul class="social-circle-icons list-inline">
+	<div class="heading-container">
+		<a href="#" class="heading-link"><h3 class="heading-item active" data-target="overview">Overview</h3></a>
+		<a href="#" class="heading-link"><h3 class="heading-item" data-target="join-us">Why Join Us</h3></a>
+	</div> <hr>
+	
+	<div class="content" id="overview-content">
+		<!-- Content for Overview -->
+		<p>{{obj.about}}</p>
+		<img class="img-fluid" src="/{{info.other_image1}}" alt="">
+	</div>
+	
+	<div class="content" id="join-us-content" style="display: none;">
+		<!-- Content for Why Join Us -->
+		<p>{{info.why_us}}</p>
+		<img src="/{{info.other_image2}}" alt="">
+	</div>
+	<ul class="category-list">
+							
+		<li><i class="fa fa-map-marker"></i>  {{obj.address}} <br> {{ obj.city }} {{ obj.state }} {{obj.country}}</li>
+		
 
-						<li class="list-inline-item text-center"><a class="fa fa-linkedin" href="#"></a></li>
+
+<ul>
+	
+	
+					  <hr>
+					
+					<ul class="social-circle-icons list-inline">
+						{% if info.linkedin_url != "linkedin" %}
+						<li class="list-inline-item text-center"><a class="fa fa-linkedin" href="{{linkedin_url}}"></a></li>
+						{% endif %}
+						{% if info.facebook_url != "facebook" %}
+						<li class="list-inline-item text-center"><a class="fa fa-facebook" href="#"></a></li>
+						{% endif %}
+						{% if info.instagram_url != "instagram" %}
+						<li class="list-inline-item text-center"><a class="fa fa-instagram" href="#"></a></li>
+						{% endif %}
 
 					</ul>
 				</article>
@@ -111,14 +175,74 @@
 	{% endif %}
 						</ul>
 					</div>
+					{% for x in display_jobs %}
+					<div class="widget category">
+						<!-- Widget Header -->
+						<h5 class="widget-header">{{x.designation}}</h5>
+						<ul class="category-list">
+							
+							<li><i class="fa fa-graduation-cap"></i> {{ x.qualification }}</li>
+							<ul class="salary-job">
+								<li><i class="fa fa-rupee"></i> {{x.salary}}</li>
+								<li><i class="fa fa-briefcase"></i> {{x.job_type}}</li>
+							</ul>
+							<li><i class="fa fa-map-marker"></i> {{ x.location }} {{x.state}} {{x.country}}</li>
+							<a href="#" class="apply-now">Apply now</a>
+
+
+	        <ul>
+	           
+	            <!-- Add more job details from JobDetails model if needed -->
+	        </ul>
+	    
+	   
+	        <h4>{{ company }}</h4>
+	       
+	            <ul>
+	                <li>{{ job.designation }}<span class="float-right">{{ job.no_of_vacancy }}</span></li>
+	                <!-- Add more job details from AgencyJobDetails model if needed -->
+	            </ul>
+	       
+						</ul>
+					</div>
+					{% endfor %}
 					<!-- Archive Widget -->
 
 				</div>
+				
 			</div>
 		</div>
 	</div>
 </section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const headingItems = document.querySelectorAll('.heading-item');
+    const contents = document.querySelectorAll('.content');
+    
+    headingItems.forEach(item => {
+        item.addEventListener('click', function(event) {
+            event.preventDefault();
+            const target = this.getAttribute('data-target');
+            
+            contents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            document.getElementById(`${target}-content`).style.display = 'block';
+            
+            headingItems.forEach(heading => {
+                heading.classList.remove('active');
+            });
+            
+            this.classList.add('active');
+        });
+    });
+    
+    // Set the Overview content as active by default
+    document.getElementById('overview-content').style.display = 'block';
+});
 
+</script>
 <!--============================
 =            Footer            =
 =============================-->
