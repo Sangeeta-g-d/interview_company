@@ -328,9 +328,8 @@
   /* Add any other styles you want to change on hover */
 }
 .highlight-button {
- height:40px;
- width: 4cm;
+  height: 40px;
+  max-width: 100%; /* Ensure the button doesn't exceed its parent's width */
   border: none;
-  border-radius: 12px; /* Set the border for the normal state */
-  /* Add any other styles for the normal state */
+  border-radius: 12px;
 }

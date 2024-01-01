@@ -227,7 +227,7 @@ $(document).ready(function() {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="section-title">
-					<h2>Featured Jobs</h2>
+					<h2><b>Featured Jobs</b></h2>
 					<p>Efficiency Redefined, Opportunities Unlimited: Empowering Your Job Search</p>
 				</div>
 			</div>
@@ -294,7 +294,7 @@ $(document).ready(function() {
   document.addEventListener("DOMContentLoaded", function() {
     AOS.init({
       offset: 120,
-      duration: 1000,
+      duration: 800,
       easing: 'ease-in-out',
       delay: 200,
       once: true,
@@ -384,7 +384,7 @@ $(document).ready(function() {
 		<div class="row" data-aos="fade-left" data-aos-anchor-placement="top-center">
 			<div class="col-md-12">
 				<div class="section-title">
-					<h2>Hiring Partners</h2>
+					<h2><b>Hiring Partners</b></h2>
 					<p>From Listings to Interviews: Enhancing Your Hiring Experience</p>
 				</div>
 			</div>
@@ -412,7 +412,7 @@ $(document).ready(function() {
       <h4 class="card-title"><a href="single.html">{{x.first_name}}</a></h4>
 
       <p class="card-text">{{ x.about }}</p>
-  <a href="/user_login" class="read-more-link">Know More</a>
+  <a href="{% url 'company' id=x.id %}" class="read-more-link">Know More</a>
 
 <script type="text/javascript">
 // Function to truncate text and show "Know More" link if necessary
@@ -456,9 +456,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <section id="services" style="margin-top: 50px;" class="services">
 
   <!--  Section Title -->
-  <div class="container section-title" data-aos="fade-up">
-    <h2>Services</h2>
-    <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+  <div class="container section-title" data-aos="fade-up"  id="why">
+    <h3><b>WHY INTERVIEW EDGE?</b></h3>
+    <p> we understand the importance of finding the perfect job that aligns with your skills, aspirations, and career goals. </p>
   </div><!-- End Section Title -->
 
   <div class="container">
@@ -467,10 +467,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
       <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="100">
         <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
+          <div class="icon flex-shrink-0"><i class="fas fa-briefcase"></i></div>
           <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Lorem Ipsum</a></h4>
-            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+            <h4 class="title"><a href="#why" class="stretched-link">Extensive Job Opportunities</a></h4>
+            <p class="description">Explore a vast array of job opportunities across various industries. Our platform is your gateway to a diverse range of roles, ensuring you find the perfect match for your skills and interests.</p>
           </div>
         </div>
       </div>
@@ -478,50 +478,51 @@ document.addEventListener("DOMContentLoaded", function() {
 
       <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="200">
         <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
+          <div class="icon flex-shrink-0"><i class="fas fa-building"></i></div>
           <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Dolor Sitema</a></h4>
-            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+            <h4 class="title"><a href="#why" class="stretched-link">Comprehensive Company Profiles</a></h4>
+            <p class="description">Make informed decisions by exploring detailed company profiles. Gain insights into company culture and values to ensure you find the right fit for your career.</p>
           </div>
         </div>
       </div><!-- End Service Item -->
 
       <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="300">
         <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
+          <div class="icon flex-shrink-0"><i class="fas fa-chart-line"></i></div>
           <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Sed ut perspiciatis</a></h4>
-            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+            <h4 class="title"><a href="#why" class="stretched-link">Career Resources</a></h4>
+            <p class="description">Access a wealth of career resources and interview questions. Our goal is not just to help you find a job but to empower you with the knowledge and tools needed to excel in your career.</p>
           </div>
         </div>
       </div><!-- End Service Item -->
 
       <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="400">
         <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-binoculars"></i></div>
+          <div class="icon flex-shrink-0"><i class="fas fa-rocket"></i></div>
           <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Magni Dolores</a></h4>
-            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            <h4 class="title"><a href="#why" class="stretched-link">Seamless Application Process</a></h4>
+            <p class="description">Streamline your application process with our one-click apply feature. Save time and effort as you easily submit applications directly through our platform, making job hunting more efficient.</p>
           </div>
         </div>
       </div><!-- End Service Item -->
 
       <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="500">
         <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-brightness-high"></i></div>
+          <div class="icon flex-shrink-0"><i class="fas fa-mobile-alt"></i></div>
           <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Nemo Enim</a></h4>
-            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+            <h4 class="title"><a href="#why" class="stretched-link">Mobile Accessibility</a></h4>
+            <p class="description">Stay connected on the go with our mobile-friendly platform. Access your job search, application history, and account settings seamlessly from your smartphone, ensuring flexibility and convenience</p>
           </div>
         </div>
       </div><!-- End Service Item -->
 
       <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="600">
         <div class="service-item d-flex">
-          <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week"></i></div>
+          <div class="icon flex-shrink-0"><i class="fas fa-question-circle"></i>
+          </i></div>
           <div>
-            <h4 class="title"><a href="services-details.html" class="stretched-link">Eiusmod Tempor</a></h4>
-            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
+            <h4 class="title"><a href="#why"class="stretched-link">Interview Question Bank</a></h4>
+            <p class="description">Gain a competitive edge with our extensive interview question bank. We provide a curated collection of industry-specific and commonly asked interview questions, helping you prepare thoroughly for each stage of the hiring process.</p>
           </div>
         </div>
       </div><!-- End Service Item -->
@@ -574,7 +575,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-	<!-- hiring partners -->
 
 
 <br>
