@@ -2,8 +2,8 @@
 {% block content %}
   <style>
     .small-image {
-      width: 90px; /* Adjust the width as needed */
-     height: 80px; /* Adjust the height as needed */
+      width: 130px; /* Adjust the width as needed */
+     height: 100px; /* Adjust the height as needed */
      display: block;
      margin: 10px auto; /* Adjust the height as needed */
     }
@@ -133,7 +133,16 @@ $(document).ready(function() {
     <li><a href="{% url 'work_mode' 'remote' %}">Remote</a></li>
 
 	</ul>
+</div><div class="widget category-list">
+	<h4 class="widget-header">Location</h4>
+	<ul class="category-list">
+
+    {% for location, job_count in combined_counts.items %}
+		<li><a href="{% url 'location_related_jobs' location|urlencode %}">{{ location }}<span>({{job_count }})</span></a></li>
+	{% endfor %}
+	</ul>
 </div>
+
 				</div>
 			</div>
 			<div class="col-lg-9 col-md-8">

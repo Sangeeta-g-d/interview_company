@@ -1,4 +1,4 @@
-{% extends 'home.html '%}
+{% extends 'home.html' %}
 {% block content %}
   <style>
     .small-image {
@@ -26,10 +26,11 @@
 
     #suggestionListJobTitle li:hover {
         background-color: #f2f2f2;
-        color:black;
+          color:black;
     }
 
     </style>
+
 
 <section class="page-search">
 	<div class="container">
@@ -107,7 +108,7 @@ $(document).ready(function() {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="search-result bg-gray">
-					<h2>Results For {{ selected_work_mode }}</h2>
+					<h2>Results For {{ selected_department }}</h2>
 				</div>
 			</div>
 		</div>
@@ -127,9 +128,10 @@ $(document).ready(function() {
 	<h4 class="widget-header">Work Mode</h4>
 	<ul class="category-list">
 
-    <li><a href="{% url 'work_mode' 'Work Form Office' %}">Work from Office</a></li>
+		<li><a href="{% url 'work_mode' 'Work Form Office' %}">Work from Office</a></li>
     <li><a href="{% url 'work_mode' 'hybride' %}">Hybride</a></li>
     <li><a href="{% url 'work_mode' 'remote' %}">Remote</a></li>
+
 	</ul>
 </div>
 <div class="widget category-list">
@@ -147,7 +149,7 @@ $(document).ready(function() {
 			<div class="col-lg-9 col-md-8">
 
 				<!-- ad listing list  -->
-        {% for x in jobs %}
+        {% for x in all_jobs %}
 				<div class="ad-listing-list mt-20">
     <div class="row p-lg-3 p-sm-5 p-4">
         <div class="col-lg-4 align-self-center">
@@ -165,22 +167,15 @@ $(document).ready(function() {
             <div class="row">
                 <div class="col-lg-7 col-md-10">
                     <div class="ad-listing-content">
-                      {% if x.company_id.first_name %}
                         <div>
-                            <a href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}" class="font-weight-bold">{{x.designation}}</a>
+                            <a href="single.html" class="font-weight-bold">{{x.designation}}</a>
                         </div>
-                        {% else %}
-                        <div>
-                            <a href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}" class="font-weight-bold">{{x.designation}}</a>
-                        </div>
-                        {% endif %}
                         <ul class="list-inline mt-2 mb-3">
                             <li class="list-inline-item"><a href="category.html"> <i class="fa fa-folder-open-o"></i> {{x.job_type}}</a></li>
                             <li class="list-inline-item"><a href="category.htm"><i class="fa fa-map-marker"></i> {{x.location}}</a></li>
-                            <li class="list-inline-item"><a href="category.htm"><i class="fa fa-briefcase"></i> {{x.work_mode}}</a></li>
                         </ul>
                         <p class="card-text">Required Skills : {{ x.mandatory_skills }}</p>
-                          {% if x.company_id.first_name %}
+                        {% if x.company_id.first_name %}
                     <a href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}" class="read-more-link">Know More</a>
                     {% else %}
                     <a href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}" class="read-more-link">Know More</a>
@@ -222,9 +217,6 @@ $(document).ready(function() {
 </div>
 {% endfor %}
 
-
-
-
 				<!-- ad listing list  -->
 
 				<!-- pagination
@@ -255,7 +247,8 @@ $(document).ready(function() {
 	</div>
 </section>
 
-
-
+<!--============================
+=            Footer            =
+=============================-->
 
 {% endblock %}

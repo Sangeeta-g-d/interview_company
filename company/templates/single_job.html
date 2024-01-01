@@ -1,87 +1,165 @@
 {% extends 'home.html' %}
 {% block content %}
-<section class="section bg-gray">
-	<!-- Container Start -->
-	<div class="container">
-		<div class="row">
-			<!-- Left sidebar -->
-			<div class="col-lg-8">
-				<div class="product-details">
-					<h1 class="product-title">{{job.designation}}</h1>
-					<div class="product-meta">
-						<ul class="list-inline">
-							<li class="list-inline-item"><i class="fa fa-rupee"></i> Package <a href="user-profile.html">{{job.salary}}</a></li>
-							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Job type<a href="category.html">{{job.job_type}}</a></li>
-							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="category.html">{{job.location}}</a></li>
-						</ul>
-					</div>
-					<div class="content mt-5 pt-5">
-						<ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
-              <li class="nav-item">
-         <a style="background:#844FC1" class="nav-link active" id="pills-requirements-tab" data-toggle="pill" href="#pills-requirements" role="tab" aria-controls="pills-requirements" aria-selected="true">Requirements</a>
-     </li>
-     <li class="nav-item">
-         <a style="background:#844FC1" class="nav-link" id="pills-description-tab" data-toggle="pill" href="#pills-description" role="tab" aria-controls="pills-description" aria-selected="false">Description</a>
-     </li>
+<link href="/static/assets2/css/specific.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style media="screen">
+    .header {
+        display: flex;
+        align-items: center;
+    }
 
-						</ul>
-            <br>
-            <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="pills-requirements" role="tabpanel" aria-labelledby="pills-requirements-tab">
-          <h3 class="tab-title">Job Requirements</h3>
-          <p>Required Skills : {{job.mandatory_skills}}</p>
-          <p>Knowledge about {{job.optional_skills}} is an advantage</p>
-          <a class="nav-link text-white add-button" href="/user_login">Apply Now</a>
+    .logo {
+        width: 40px;
+        /* Adjust the width of the logo as needed */
+        height: auto;
+        /* Maintain aspect ratio */
+        margin-right: 10px;
+        /* Adjust the space between the logo and text */
+    }
 
-      </div>
-      <div class="tab-pane fade" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
-          <h3 class="tab-title">Job Description</h3>
-          <p>{{job.job_description}}</p>
-          <a class="nav-link text-white add-button" href="/user_login">Apply Now</a>
-      </div>
-  </div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Container End -->
+    .image-box {
+        width: 50%;
+        margin-left: 35px;
+        /* Set the box width to half of the container */
+        float: left;
+        /* Align the box to the left */
+        box-sizing: border-box;
+        /* Include padding and borders in the width */
+        position: relative;
+        /* Set position to relative */
+    }
+
+    .image-box img {
+        width: 130px;
+        /* Make the image fill the entire box */
+        height: 120px;
+        /* Ensure the image doesn't have any unwanted spaces */
+        display: block;
+        /* Ensure block-level display */
+        position: absolute;
+        /* Set position to absolute */
+        top: 40px;
+        /* Adjust the distance from the top as needed */
+    }
+
+    .bg-3 {
+        height: 10cm;
+        background: url("/static/assets1/images/purple.jpg");
+        background-size: cover;
+
+        background-repeat: no-repeat;
+    }
+</style>
+<section class="hero-area bg-3 text-center overly mb-4">
+    <!-- Container Start -->
+    <div class="container" id="details">
+        <div class="row">
+            <!-- Left sidebar -->
+            <div class="col-lg-8" >
+                <div class="product-details" style="display: flex; flex-direction: column; align-items: flex-start;">
+                    <h1 class="product-title" style="color: white; font-size: 45px; font-weight: 400; margin: 0;">
+                        <b>{{job.designation}}</b>
+                    </h1>
+                    <br>
+                    {% if job.company_id.first_name %}
+                    <a href="/company/{{job.company_id_id}}" style="color: white; font-size: 25px; font-weight: 400; margin: 0;">
+                        {{job.company_id.first_name}}
+                    </a>
+                    {% else %}
+                    <a href="/company/{{job.company_id_id}}" style="color: white; font-size: 20px; font-weight: 400; margin: 0;">
+                        {{job.company_id.company_name}}
+                    </a>
+                    {% endif %}
+                
+                    <div class="product-meta" style="margin-top: 10px;">
+                        <ul class="list-inline" style="list-style: none; padding: 0; margin: 0;">
+                            <li class="list-inline-item" style="color: rgb(212, 203, 203); margin-bottom: 5px;">
+                                 Package <a href="user-profile.html" style="color: white;">{{job.salary}}</a>
+                            </li>
+                            <li class="list-inline-item" style="color: rgb(212, 203, 203); margin-bottom: 5px;">
+                                <i class="fa fa-folder-open-o"></i> Job type <a href="category.html" style="color: white;">{{job.job_type}}</a>
+                            </li>
+                            <li class="list-inline-item" style="color: rgb(212, 203, 203);">
+                                <i class="fa fa-location-arrow"></i> Location <a href="category.html" style="color: white;">{{job.location}}</a>
+                            </li>
+                        </ul>
+                        <div style="display: flex; margin-top: 10px;">
+                            <div style="background-color: white; width: 150px; height: 30px; border-radius: 20px; margin-right: 5px;">
+                                {{job.job_type}}
+                            </div>
+                            <div style="background-color: white; width: 150px; height: 30px; border-radius: 20px;">
+                                {{job.work_mode}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar" style="margin-top:65px;">
+                    <a href="/user_login">
+                    <button style="background-color: #ec6433; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px;">Apply Now</button>
+                </a>
+                </div>
+            </div>
+        </div>
+    </div> <br> <br> <br> <br>
+
+    <!-- Container End -->
 </section>
-<script type="text/javascript">
-// Get references to the tabs
-const requirementsTab = document.getElementById('pills-requirements-tab');
-const descriptionTab = document.getElementById('pills-description-tab');
 
-// Get references to the content panes
-const requirementsContent = document.getElementById('pills-requirements');
-const descriptionContent = document.getElementById('pills-description');
+<section class="blog single-blog section">
+    <div class="container">
 
-// Function to show requirements content and hide description content
-function showRequirements() {
-    requirementsTab.classList.add('active');
-    descriptionTab.classList.remove('active');
+        <div class="row">
 
-    requirementsContent.classList.add('show', 'active');
-    descriptionContent.classList.remove('show', 'active');
-}
+            <div class="col-lg-8" style="margin-top: -50px; margin-left: -1px;">
+                <h4><b>Job Description</b></h4>
 
-// Function to show description content and hide requirements content
-function showDescription() {
-    requirementsTab.classList.remove('active');
-    descriptionTab.classList.add('active');
+                <hr>
+                
+                <div class="col-lg-10">
+                 <h4 style="color: black;"><i class="fas fa-graduation-cap"></i> Qulification: {{job.qualification}}</h4>
+                 <br>
+                 <h4 style="color: black;"><i class="fas fa-briefcase"></i> Experience: {{job.experience}}</h4>
+                </div>
+                 <br>
+                 
+                 <h4 style="color: black;"><i class="fas fa-check"></i> Required Skills: {{job.mandatory_skills}}</h4><p style="margin-left:20px ;">Knowledge about {{job.optional_skills}} is an advantage</p>
+                 
+                 <h4 style="color: black;"><i class="fas fa-map-marker-alt"></i> {{job.location}} {{job.state}}  {{job.country}} </h4>
+                 <hr>
+                 <br>
+                 <h4><b>Roles and Responsiblity</b></h4>
+                <br>
+                 <p>
+                    {{job.job_description}}
+                 </p>
+            </div>
+         
 
-    requirementsContent.classList.remove('show', 'active');
-    descriptionContent.classList.add('show', 'active');
-}
+            
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <!-- Search Widget -->
 
-// Add click event listeners to the tabs
-requirementsTab.addEventListener('click', showRequirements);
-descriptionTab.addEventListener('click', showDescription);
+                    <!-- Category Widget -->
+                    <div class="widget category">
+                        <!-- Widget Header -->
+                       <img width="380px" height="250px" src="/static/assets1/images/job_p.png" alt="">
+                       
+                    </div>
+                    <!-- Archive Widget -->
 
-// Show requirements content by default
-showRequirements();
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-
-</script>
+<!--============================
+=            Footer            =
+=============================-->
 
 {% endblock %}

@@ -7,6 +7,7 @@ urlpatterns = [
     path('',views.index,name='index'),
     path('demo',views.demo,name='demo'),
     path('job_list/<str:department>',views.job_list,name='job_list'),
+    path('location_related_jobs/<str:location>',views.location_related_jobs,name='location_related_jobs'),
     path('user_job_list/<str:department>',views.user_job_list,name='user_job_list'),
     path('registration',views.registration,name='registration'),
     path('companies',views.companies,name='companies'),
@@ -62,5 +63,4 @@ urlpatterns = [
     path('logout', views.company_logout, name='company_logout'),
     path('agency_logout', views.agency_logout, name='agency_logout'),
     path('freshers_jobs', views.freshers_jobs, name='freshers_jobs'),
-    path('single_job1/<int:job_id>/<int:u_id>', views.single_job1, name='single_job1'),
 ]
