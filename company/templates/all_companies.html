@@ -18,7 +18,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="section-title">
-					<h2>Hiring Partners</h2>
+					<h2><b>Hiring Partners</b></h2>
 					<p>From Listings to Interviews: Enhancing Your Hiring Experience</p>
 				</div>
 			</div>
@@ -36,17 +36,17 @@
 		<div class="thumb-content">
 			<!-- <div class="price">$200</div> -->
 
-			<a href="single.html">
+			<a href="/company/{{x.id}}">
 				<img class="small-image card-img-top img-fluid" src="{{x.profile}}" alt="Card image cap">
 			</a>
 
 
 		</div>
     <div class="card-body text-center"> <!-- Added 'text-center' class -->
-      <h4 class="card-title"><a href="single.html">{{x.first_name}}</a></h4>
+      <h4 class="card-title"><a href="/company/{{x.id}}">{{x.first_name}}</a></h4>
 
       <p class="card-text">{{ x.about }}</p>
-  <a href="user_login" class="read-more-link">Know More</a>
+  <a href="/company/{{x.id}}" class="read-more-link">Know More</a>
 
 <script type="text/javascript">
 // Function to truncate text and show "Know More" link if necessary

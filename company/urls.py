@@ -19,6 +19,7 @@ urlpatterns = [
     path('user_single_job/<int:job_id>/<int:u_id>',views.user_single_job,name='user_single_job'),
     path('search_results',views.search_results,name='search_results'),
     path('autocomplete-job-title/', views.autocomplete_job_title_suggestions, name='autocomplete_job_title'),
+    path('autocomplete-location-title/', views.autocomplete_location_suggestions, name='autocomplete_location_title'),
     path('user_search_results',views.user_search_results,name='user_search_results'),
     path('work_mode/<str:selected_work_mode>/', views.work_mode, name='work_mode'),
     path('user_work_mode/<str:selected_work_mode>/', views.user_work_mode, name='user_work_mode'),
@@ -62,5 +63,5 @@ urlpatterns = [
     path('user_logout', views.user_logout, name='user_logout'),
     path('logout', views.company_logout, name='company_logout'),
     path('agency_logout', views.agency_logout, name='agency_logout'),
-    path('freshers_jobs', views.freshers_jobs, name='freshers_jobs'),
+    path('search_trend/<str:keyword>/', views.search_trend, name='search_trend'),
 ]

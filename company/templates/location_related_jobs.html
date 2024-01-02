@@ -170,9 +170,14 @@ $(document).ready(function() {
                         <div>
                             <a href="single.html" class="font-weight-bold">{{x.designation}}</a>
                         </div>
+                        {% if x.company_id.first_name %}
+                        <p>{{x.company_id.first_name}}</p>
+                        {% else %}
+                        <p>{{x.company_id.company_name}}</p>
+                        {% endif %}
                         <ul class="list-inline mt-2 mb-3">
-                            <li class="list-inline-item"><a href="category.html"> <i class="fa fa-folder-open-o"></i> {{x.job_type}}</a></li>
-                            <li class="list-inline-item"><a href="category.htm"><i class="fa fa-map-marker"></i> {{x.location}}</a></li>
+                            <li class="list-inline-item"> <i class="fa fa-folder-open-o"></i> {{x.job_type}}</li>
+                            <li class="list-inline-item"><i class="fa fa-map-marker"></i> {{x.location}}</li>
                         </ul>
                         <p class="card-text">Required Skills : {{ x.mandatory_skills }}</p>
                         {% if x.company_id.first_name %}

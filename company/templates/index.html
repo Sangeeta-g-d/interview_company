@@ -102,7 +102,7 @@
 											</select>
 										</div>
 										<div class="form-group col-lg-3 col-md-6">
-											<input  name="keyword" type="text" class="form-control my-2 my-lg-1" id="inputLocation4" placeholder="Location">
+											<input name="keyword" type="text" class="form-control my-2 my-lg-1" id="inputLocation4" placeholder="Location">
 										</div>
 										<div class="form-group col-xl-2 col-lg-3 col-md-6 align-self-center">
 											<button style="background:#844FC1;" type="submit" class="btn btn-primary active w-100">Search Now</button>
@@ -294,9 +294,9 @@ $(document).ready(function() {
   document.addEventListener("DOMContentLoaded", function() {
     AOS.init({
       offset: 120,
-      duration: 800,
+      duration: 600,
       easing: 'ease-in-out',
-      delay: 200,
+      delay: 100,
       once: true,
       // ... other options
     });
@@ -321,11 +321,9 @@ $(document).ready(function() {
                 <h3><b>Jobs for Freshers</b></h3>
                 <ul>
                   <li>Exciting opportunities for fresh graduates</li>
-                  
-                 
               </ul>
                 <br>
-               <a href="freshers_jobs"> <h5 id="viewAllBtn">View all</h5></a>
+               <a href="{% url 'search_trend' 'freshers' %}"> <h5 id="viewAllBtn">View all</h5></a>
             </div>
         </div>
         
@@ -341,7 +339,7 @@ $(document).ready(function() {
                 
             </ul>
               <br>
-                <h5 id="viewAllBtn">View all</h5>           </div>
+              <a href="{% url 'search_trend' 'banking' %}"> <h5 id="viewAllBtn">View all</h5></a>          </div>
           </div> <!-- End Icon Box -->
 
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="400"id="jobsCard">
@@ -353,7 +351,7 @@ $(document).ready(function() {
                
             </ul>
               <br>
-                <h5 id="viewAllBtn">View all</h5>
+              <a href="{% url 'search_trend' 'technical' %}"> <h5 id="viewAllBtn">View all</h5></a>
 </b>            </div>
           </div> <!-- End Icon Box -->
 
@@ -367,7 +365,7 @@ $(document).ready(function() {
                
             </ul>
               <br>
-                <h5 id="viewAllBtn">View all</h5>      </div>
+              <a href="{% url 'search_trend' 'part-time' %}"> <h5 id="viewAllBtn">View all</h5></a>      </div>
           </div> <!-- End Icon Box -->
 
         </div>
@@ -381,7 +379,7 @@ $(document).ready(function() {
 <!-- hiring partners -->
 <section class="popular-deals section bg-gray" >
 	<div class="container">
-		<div class="row" data-aos="fade-left" data-aos-anchor-placement="top-center">
+		<div class="row" data-aos="fade-left" data-aos-duration="500" data-aos-anchor-placement="top-center">
 			<div class="col-md-12">
 				<div class="section-title">
 					<h2><b>Hiring Partners</b></h2>
@@ -391,7 +389,7 @@ $(document).ready(function() {
 		</div>
 		<div class="row">
 			<!-- offer 01 -->
-			<div class="col-lg-12"data-aos="fade-left" data-aos-anchor-placement="top-center">
+			<div class="col-lg-12"data-aos="fade-left" data-aos-duration="500" data-aos-anchor-placement="top-center">
 				<div class="trending-ads-slide">
             {% for x in hiring_partners %}
 					<div class="col-sm-12 col-lg-4">
@@ -457,7 +455,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   <!--  Section Title -->
   <div class="container section-title" data-aos="fade-up"  id="why">
-    <h3><b>WHY INTERVIEW EDGE?</b></h3>
+    <h2><b>Why InterviewEdge</b></h2>
     <p> we understand the importance of finding the perfect job that aligns with your skills, aspirations, and career goals. </p>
   </div><!-- End Section Title -->
 
@@ -539,15 +537,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <section class=" section">
 	<!-- Container Start -->
-	<div class="container" data-aos="fade-right" data-aos-anchor-placement="top-center">
+	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<!-- Section title -->
-				<div class="section-title">
-					<h2>All Categories</h2>
+				<div class="section-title" >
+					<h2><b>Explore Jobs by Department</b></h2>
 					<p>Connecting Talent with Opportunity</p>
 				</div>
-        <div class="row" data-aos="fade-right" data-aos-anchor-placement="top-center">
+        <div class="row" data-aos="fade-right" data-aos-duration="500"  data-aos-anchor-placement="top-center">
       {% for department, count in department_open_counts %}
       <div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
           <div class="category-block" style="width: 250px; height: 200px;"> <!-- Adjust width and height as needed -->
@@ -618,7 +616,7 @@ document.addEventListener("DOMContentLoaded", function() {
               <div class="faq-content">
                 <p>Topics: Basic Python Concepts, Data Structures, Object-Oriented Programming (OOP),Python Libraries/Frameworks, Web Development, Databases.</p>
                <br>
-                <h6>View all</h6>
+                
               </div>
               <i class="faq-toggle bi bi-chevron-right"></i>
             </div><!-- End Faq item-->
@@ -628,7 +626,7 @@ document.addEventListener("DOMContentLoaded", function() {
               <div class="faq-content">
                 <p>Topics: Programming and Problem Solving, Data Structures, Algorithms, Object-Oriented Programming (OOP) System Design,Database Systems, Web Development, Networking, Operating Systems.</p>
                 <br>
-                <h6>View all</h6>
+                
               </div>
               <i class="faq-toggle bi bi-chevron-right"></i>
             </div><!-- End Faq item-->
@@ -640,7 +638,7 @@ document.addEventListener("DOMContentLoaded", function() {
               <div class="faq-content">
                 <p>Topics: Financial Markets and Instruments, Risk Management, Banking Regulations and Compliance,Financial Statements and Analysis, Credit Analysis, Investment Banking.</p>
                 <br>
-                <h6>View all</h6>
+                
               </div>
               <i class="faq-toggle bi bi-chevron-right"></i>
             </div><!-- End Faq item-->
@@ -650,7 +648,7 @@ document.addEventListener("DOMContentLoaded", function() {
               <div class="faq-content">
                 <p>Topics: Statistics and Probability, Machine Learning, Data Analysis and Exploration, Data Cleaning and Preprocessing, Programming and Coding, SQL and Databases.</p>
                 <br>
-                <h6>View all</h6>
+                
               </div>
               <i class="faq-toggle bi bi-chevron-right"></i>
             </div><!-- End Faq item-->
@@ -659,7 +657,7 @@ document.addEventListener("DOMContentLoaded", function() {
               <h3><span class="num">5.</span> <span>Sales Manager interview questions</span></h3>
               <div class="faq-content">
                 <p>Topics: Sales Experience and Achievements, Leadership and Management, Sales Strategy and Planning, Recruitment and Team Building, Performance Management, Customer Focus, Sales Forecasting and Reporting</p>
-             <br>   <h6>View all</h6>
+             <br>   
               </div>
               <i class="faq-toggle bi bi-chevron-right"></i>
             </div><!-- End Faq item-->

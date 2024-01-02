@@ -120,15 +120,23 @@
                 <hr>
                 
                 <div class="col-lg-10">
-                 <h4 style="color: black;"><i class="fas fa-graduation-cap"></i> Qulification: {{job.qualification}}</h4>
-                 <br>
-                 <h4 style="color: black;"><i class="fas fa-briefcase"></i> Experience: {{job.experience}}</h4>
+                 <h6 style="color: rgb(73, 67, 67);"><i class="fas fa-graduation-cap"></i> Qulification: </h6>
+                 <p>{{job.qualification}}</p>
+                 
+                 <div class="experience-container">
+                    <h6 style="color: rgb(73, 67, 67); display: inline-block; margin-right: 5px;"><i class="fas fa-briefcase"></i> Experience: </h6>
+                    <p style="display: inline-block;">{{ job.experience }}</p>
                 </div>
-                 <br>
+                </div>
+                
                  
-                 <h4 style="color: black;"><i class="fas fa-check"></i> Required Skills: {{job.mandatory_skills}}</h4><p style="margin-left:20px ;">Knowledge about {{job.optional_skills}} is an advantage</p>
+                 <h6 style="color: rgb(73, 67, 67);"><i class="fas fa-check"></i> Required Skills: </h6><p style="margin-left:20px ;">
+                    {{job.mandatory_skills}} <br> Knowledge about {{job.optional_skills}} is an advantage</p>
                  
-                 <h4 style="color: black;"><i class="fas fa-map-marker-alt"></i> {{job.location}} {{job.state}}  {{job.country}} </h4>
+                    <div class="experience-container">
+                        <h6 style="color: rgb(73, 67, 67); display: inline-block; margin-right: 5px;"><i class="fas fa-map-marker"></i></h6>
+                        <p style="display: inline-block;">{{ job.location }} {{job.state}} {{job.country}}</p>
+                    </div>
                  <hr>
                  <br>
                  <h4><b>Roles and Responsiblity</b></h4>

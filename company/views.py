@@ -444,6 +444,27 @@ def autocomplete_job_title_suggestions(request):
     return JsonResponse({'suggestions': list(suggestions)})
 
 
+def autocomplete_location_suggestions(request):
+    keyword = request.GET.get('keyword')
+    print(keyword)
+    suggestions = set()  # Using a set to maintain unique values
+
+    if keyword:
+        agency_location_results = AgencyJobDetails.objects.filter(
+            designation__icontains=keyword
+        ).values_list('location', flat=True)[:10]  # Limit suggestions to 10
+
+        location_results = JobDetails.objects.filter(
+            designation__icontains=keyword
+        ).values_list('location', flat=True)[:10]  # Limit suggestions to 10
+
+        suggestions.update(agency_location_results)
+        suggestions.update(location_results)
+    
+
+    return JsonResponse({'suggestions': list(suggestions)})
+
+
 def user_search_results(request):
     keyword = request.GET.get('keyword')
     job_title = request.GET.get('job_title')
@@ -1269,8 +1290,22 @@ def all_jobs(request):
         (department, open_jobs_count.get(department, 0)) for department in all_unique_departments
     ]
 
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
+        
     context = {'data':data,'combined_data':combined_data,
-    'department_open_counts':department_open_counts}
+    'department_open_counts':department_open_counts,'combined_counts':combined_counts}
     return render(request,'all_jobs.html',context)
 
 
@@ -2211,11 +2246,46 @@ def saved_jobs(request):
     return render(request,'saved_jobs.html',context)
 
 
-def freshers_jobs(request):
-    job_details = JobDetails.objects.filter(experience='Fresher', status='open')
-    print("##########",job_details)
-    agency_job_details = AgencyJobDetails.objects.filter(experience='Fresher', status='open')
-    print("##########",agency_job_details)
+def search_trend(request, keyword):
+    print(keyword)
+    if keyword == 'freshers':
+        job_details = JobDetails.objects.filter(
+            Q(experience='Fresher') | Q(experience__startswith='0-'),
+            status='open'
+        )
+        agency_job_details = AgencyJobDetails.objects.filter(
+            Q(experience='Fresher') | Q(experience__startswith='0-'),
+            status='open'
+        )
+    elif keyword == 'banking':
+        job_details = JobDetails.objects.filter(
+            Q(department='Finance and Accounting'),
+            status='open'
+        )
+        agency_job_details = AgencyJobDetails.objects.filter(
+            Q(department='Finance and Accounting'),
+            status='open'
+        )
+    elif keyword == 'part-time':
+        job_details = JobDetails.objects.filter(
+            Q(job_type='Part time'),
+            status='open'
+        )
+        agency_job_details = AgencyJobDetails.objects.filter(
+            Q(job_type='Part time'),
+            status='open'
+        )
+    else:
+        job_details = JobDetails.objects.filter(
+            Q(department='Research and Development') | Q(department='Information Technology (IT)') ,
+            status='open'
+        )
+        agency_job_details = AgencyJobDetails.objects.filter(
+             Q(department='Research and Development') | Q(department='Information Technology (IT)') ,
+            status='open'
+        )
+    print("##########", job_details)
+    #print("##########",agency_job_details)
     all_jobs = list(chain(job_details, agency_job_details))
     for job in all_jobs:
         today = datetime.now().date()  # Define 'today' here for each iteration
@@ -2224,7 +2294,7 @@ def freshers_jobs(request):
 
     # Sort the combined queryset based on days posted (latest at the top)
     all_jobs = sorted(all_jobs, key=lambda x: x.created_on, reverse=True)
-    print("%%%%%%%%",all_jobs)
+    #print("^^^^^^^^^^^^^",all_jobs)
     unique_departments_agency = AgencyJobDetails.objects.values_list('department', flat=True).distinct()
     unique_departments_job = JobDetails.objects.values_list('department', flat=True).distinct()
     all_unique_departments = list(set(chain(unique_departments_agency, unique_departments_job)))
@@ -2254,13 +2324,27 @@ def freshers_jobs(request):
     print("^^^^^^^^^^^^^^^^",department_open_counts)
     work_modes = AgencyJobDetails.objects.values_list('work_mode', flat=True).distinct()
 
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
+
     context = {
         'all_jobs': all_jobs,
-       
         'department_open_counts':department_open_counts,
         'work_modes':work_modes,
+        'combined_counts':combined_counts,'keyword':keyword,
     }
-    return render(request,'freshers_jobs.html')
+    return render(request,'search_trend.html', context)
 
 def single_job(request,job_id,u_id):
     job = AgencyJobDetails.objects.select_related('company_id').filter(id=job_id, status="open").first()

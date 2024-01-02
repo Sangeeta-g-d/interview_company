@@ -95,9 +95,9 @@
               <td>{{x.location}}</td>
               <td>{{x.work_mode}}</td>
               <td>{{x.no_of_vacancy}}</td>
-              <td>{{x.mandatory_skills}}</td>
-              <td>{{x.optional_skills}}</td>
-              <td>{{ x.qualification}}</td>
+              <td  class="break-words">{{x.mandatory_skills}}</td>
+              <td  class="break-words">{{x.optional_skills}}</td>
+              <td  class="break-words">{{ x.qualification}}</td>
               <td>{{ x.experience}}</td>
               <td>{{ x.salary}}</td>
               <td>
@@ -106,7 +106,27 @@
 
 
       <td>
-
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const tds = document.querySelectorAll('.break-words');
+      
+            tds.forEach(td => {
+              const words = td.textContent.split(' ');
+              const maxWordsPerLine = 5; // Change this number as needed
+      
+              if (words.length > maxWordsPerLine) {
+                let formattedText = '';
+                for (let i = 0; i < words.length; i++) {
+                  formattedText += words[i] + ' ';
+                  if ((i + 1) % maxWordsPerLine === 0) {
+                    formattedText += '<br><br>';
+                  }
+                }
+                td.innerHTML = formattedText.trim(); // Remove trailing space
+              }
+            });
+          });
+        </script>
 <form method="POST" action="{% url 'delete_jobs' x.pk %}">
 {% csrf_token %}
 <button type="submit" class="badge badge-success">

@@ -26,6 +26,13 @@
     background-color: #f2f2f2;
       color:black;
 }
+
+  .product-item:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a box shadow when hovering */
+      transform: translateY(-20px); /* Move the card slightly up when hovering */
+      transition: box-shadow 0.7s ease, transform 0.7s ease; /* Add a smooth transition effect */
+  }
+
 </style>
 
 <section class="page-search">
@@ -99,13 +106,7 @@ $(document).ready(function() {
 });
 </script>
 </section>
-<style>
-  .product-item:hover {
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a box shadow when hovering */
-      transform: translateY(-20px); /* Move the card slightly up when hovering */
-      transition: box-shadow 0.7s ease, transform 0.7s ease; /* Add a smooth transition effect */
-  }
-</style>
+
 <section class="section-sm">
 	<div class="container">
 		<div class="row">
