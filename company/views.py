@@ -945,7 +945,7 @@ def admin_login(request):
         if user is not None and user.is_superuser:
             login(request, user)
             print(request.user)
-            messages.success(request,'Login Successful')
+            
             return redirect('/admin_db')
         else:
             messages.error(request,'Wrong Credentials')

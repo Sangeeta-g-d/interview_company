@@ -1,49 +1,146 @@
-{% extends 'user_home.html' %}
-{% block content %}
-<style media="screen">
-.product-item .card .card-body {
-  height: 248px; /* Adjust the height as needed */
-  overflow: hidden;
-}
-.empty-bookmark path {
-  fill: none; /* Define the fill color for the empty bookmark */
-  stroke: #660000; /* Define the stroke color for the empty bookmark */
-   stroke-width: 2;
-   color: black;
-}
-/* Styles for the filled bookmark icon */
-.filled-bookmark path {
-    fill: yellow; /* Define the fill color for the filled bookmark */
-    stroke: red; /* Define the stroke color for the filled bookmark */
-    stroke-width: 3; /* Define the stroke width for the filled bookmark */
-}
-#suggestionListJobTitle {
-    list-style: none;
-    padding: 0;
-    margin: 5px 0 0 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none; /* Hide the list initially */
-}
+<!DOCTYPE html>
 
-#suggestionListJobTitle li {
-    padding: 8px 12px;
-    cursor: pointer;
-    color : white;
-}
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
 
-#suggestionListJobTitle li:hover {
-    background-color: #f2f2f2;
-    color:black;
-}
-.product-item:hover {
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a box shadow when hovering */
-      transform: translateY(-20px); /* Move the card slightly up when hovering */
-      transition: box-shadow 0.7s ease, transform 0.7s ease; /* Add a smooth transition effect */
-  }
-</style>
+<html lang="en">
+<head>
+
+  <!-- ** Basic Page Needs ** -->
+  <meta charset="utf-8">
+  <title>Interview Scheduler</title>
+
+  <!-- ** Mobile Specific Metas ** -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Agency HTML Template">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="author" content="Themefisher">
+  <meta name="generator" content="Themefisher Classified Marketplace Template v1.0">
+
+  <!-- theme meta -->
+  <meta name="theme-name" content="classimax" />
+
+  <!-- favicon -->
+  <link href="images/favicon.png" rel="shortcut icon">
+
+  <!--
+  Essential stylesheets
+  =====================================-->
+  <link href="/static/assets1/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/assets1/plugins/bootstrap/bootstrap-slider.css" rel="stylesheet">
+  <link href="/static/assets1/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/assets1/plugins/slick/slick.css" rel="stylesheet">
+  <link href="/static/assets1/plugins/slick/slick-theme.css" rel="stylesheet">
+  <link href="/static/assets1/plugins/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="/static/assets1/css/style.css" rel="stylesheet">
+  </head>
+  <style media="screen">
+    .product-item .card .card-body {
+      height: 248px; /* Adjust the height as needed */
+      overflow: hidden;
+    }
+    .empty-bookmark path {
+      fill: none; /* Define the fill color for the empty bookmark */
+      stroke: #660000; /* Define the stroke color for the empty bookmark */
+       stroke-width: 2;
+       color: black;
+    }
+    /* Styles for the filled bookmark icon */
+    .filled-bookmark path {
+        fill: yellow; /* Define the fill color for the filled bookmark */
+        stroke: red; /* Define the stroke color for the filled bookmark */
+        stroke-width: 3; /* Define the stroke width for the filled bookmark */
+    }
+    #suggestionListJobTitle {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 0 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none; /* Hide the list initially */
+    }
+    
+    #suggestionListJobTitle li {
+        padding: 8px 12px;
+        cursor: pointer;
+        color : white;
+    }
+    
+    #suggestionListJobTitle li:hover {
+        background-color: #f2f2f2;
+        color:black;
+    }
+    .product-item:hover {
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a box shadow when hovering */
+          transform: translateY(-20px); /* Move the card slightly up when hovering */
+          transition: box-shadow 0.7s ease, transform 0.7s ease; /* Add a smooth transition effect */
+      }
+    </style>
+    
+  <body>
+    <header>
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-md-12">
+    				<nav class="navbar navbar-expand-lg navbar-light navigation">
+    					<a class="navbar-brand" href="/user_dashboard">
+    						<img style="margin-left: -60px; margin-top: -20px;" width="160px" height="60px" src="/static/assets1/images/is_logo.png" alt="">
+    					</a>
+    					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    						<span class="navbar-toggler-icon"></span>
+    					</button>
+    					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    						<ul class="navbar-nav ml-auto main-nav ">
+
+
+                  <li class="nav-item dropdown dropdown-slide @@dashboard">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#!">Jobs<span><i class="fa fa-angle-down"></i></span>
+                    </a>
+
+                    <!-- Dropdown list -->
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item @@dashboardPage" href="/user_dashboard">Recommanded</a></li>
+                      <li><a class="dropdown-item @@dashboardMyAds" href="/saved_jobs">Saved</a></li>
+                      <li><a class="dropdown-item @@dashboardMyAds" href="/jobs">All Jobs</a></li>
+
+
+                    </ul>
+                  </li>
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/application_status">Status</a>
+                  </li>
+
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/companies">Companies</a>
+                  </li>
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/profile">Profile</a>
+                  </li>
+
+    						</ul>
+
+
+    						<ul class="navbar-nav ml-auto mt-10">
+    							<li class="nav-item">
+    								<a class="nav-link login-button" href="/user_logout">Logout</a>
+    							</li>
+
+    						</ul>
+    					</div>
+    				</nav>
+    			</div>
+    		</div>
+    	</div>
+    </header>
+
 
 <section class="page-search">
 	<div class="container">
@@ -350,4 +447,115 @@ $(document).ready(function() {
 =            Footer            =
 =============================-->
 
-{% endblock %}
+<footer style="padding-bottom: 0%;" class="footer section section-sm">
+  <!-- Container Start -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-md-7 offset-md-1 offset-lg-0 mb-4 mb-lg-0">
+        <!-- About -->
+        <div class="block about">
+          <!-- footer logo -->
+          <!-- description -->
+          <p class="alt-color">HAEGL Interview Egde is an innovative platform revolutionizing
+            the recruitment landscape. Designed to streamline the hiring process for companies,
+            consultancies, and job seekers, it offers an intuitive interface where companies
+            effortlessly post job openings, review applications, and schedule interviews</p>
+        </div>
+        <div style="padding-top: 10px;">
+        <img width="120px" height="60px" src="/static/assets1/images/hhh2.png" alt=""></div>
+      </div>
+      
+      <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0 col-6 mb-4 mb-md-0">
+        <div class="block">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/all_companies">Companies</a></li>
+              <li><a href="/all_jobs">Jobs</a></li>
+            <li><a href="user_login">Login</a></li>
+            <li><a href="/user_registration">Registration</a></li>
+          </li>
+          </ul>
+        </div>
+        <div style="padding-top: 30px;">
+         
+            <!-- Insert your social media icons here -->
+            <!-- Example using Font Awesome for social icons -->
+           
+              <ul class="list-inline">
+                <li class="list-inline-item text-center"><a target="_blank" class="fa fa-instagram" href="https://www.instagram.com/haegltechnologies/" style="font-size: 20px; color: white;"></a></li>&nbsp;
+                <li class="list-inline-item text-center"><a target="_blank" class="fa fa-facebook" href="https://www.facebook.com/haegltechnologies/" style="font-size: 20px; color: white;"></a></li>&nbsp;
+                <li class="list-inline-item text-center"><a target="_blank" class="fa fa-linkedin" href="https://www.linkedin.com/company/haegl-technologies-pvt-ltd/" style="font-size: 20px; color: white;"></a></li>
+            </ul>
+                 
+          
+            <!-- Add more social media icons as needed -->
+        </div>       
+      </div>
+      <div class="col-lg-3 col-md-3 offset-md-1 offset-lg-0 col-6 mb-4 mb-md-0">
+        <div class="block">
+          <h4>Get in Touch</h4>
+          <ul style="list-style: none;">
+          <li><i class="fa fa-map-marker"></i> HAEGL TECHNOLOGIES PVT LTD, 1st Floor, AKALWADI MANSION, Vidyanagar, Hubballi, Karnataka 580021</li>
+
+           <li><i class="fa fa-phone"></i> +91 950 0499 570 </li>
+
+          </ul>
+        </div>
+        <div style="margin-top: 70px;">
+          <ul style="list-style: none;">
+            <a href="/haegl.in" style="text-decoration: none; color: inherit;">
+              <li style="list-style: none;">
+                2023 Haegl Technologies Pvt Ltd
+              </li>
+            </a>
+          </ul>
+        </div>
+     
+        
+      </div>
+      <!-- Promotion -->
+      <div class="col-lg-3 col-md-7">
+        <!-- App promotion -->
+        <div class="block-2 app-promotion">
+          <div class="mobile d-flex  align-items-center">
+            <a href="index.html">
+              <!-- Icon -->
+              <img src="/static/assets1/images/footer/phone-icon.png" alt="mobile-icon">
+            </a>
+            <p class="mb-0">Get the Dealsy Mobile App and Save more</p>
+          </div>
+          <div class="download-btn d-flex my-3">
+            <a href="index.html"><img src="/static/assets1//static/assets1/images/apps/google-play-store.png" class="img-fluid" alt=""></a>
+            <a href="index.html" class=" ml-3"><img src="images/apps/apple-app-store.png" class="img-fluid" alt=""></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Container End -->
+</footer>
+<!-- Footer Bottom -->
+
+
+<!--
+Essential Scripts
+=====================================-->
+<script src="/static/assets1/plugins/jquery/jquery.min.js"></script>
+<script src="/static/assets1/plugins/bootstrap/popper.min.js"></script>
+<script src="/static/assets1/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="/static/assets1/plugins/bootstrap/bootstrap-slider.js"></script>
+<script src="/static/assets1/plugins/tether/js/tether.min.js"></script>
+<script src="/static/assets1/plugins/raty/jquery.raty-fa.js"></script>
+<script src="/static/assets1/plugins/slick/slick.min.js"></script>
+<script src="/static/assets1/plugins/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+<!-- google map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU" defer></script>
+<script src="/static/assets1/plugins/google-map/map.js" defer></script>
+
+<script src="/static/assets1/js/script.js"></script>
+
+</body>
+
+</html>
+
