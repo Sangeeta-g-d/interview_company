@@ -920,25 +920,38 @@ def login1(request):
         print(password)
         user = authenticate(request, username=username, password=password)
         print("!!!!!!!!!!!!!!!!",user)
-        if user is not None and user.user_type == 'Company':
+        if user is not None and user.user_type == 'Company' and user.status == True:
             login(request, user)
             i = request.user.id
             print("companyyy idddd",i)
             return redirect('company_dashboard')
-        elif user is not None and user.user_type == 'Agency':
+        elif user is not None and user.user_type == 'Agency' and user.status == True:
             login(request, user)
             i = request.user.id
             print("agencyyyy idddd",i)
             return redirect('agency_dashboard')
-        elif user is not None and user.is_superuser:
-            login(request, user)
-            return redirect('/admin_db')
-
         else:
+            messages.error(request,"Sorry unable to login please try after sometime")
             print("credentials are wrong")
            
 
     return render(request, 'login1.html')
+
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.is_superuser:
+            login(request, user)
+            print(request.user)
+            messages.success(request,'Login Successful')
+            return redirect('/admin_db')
+        else:
+            messages.error(request,'Wrong Credentials')
+            return redirect('/admin_login')
+    return render(request,'admin_login.html')
+
 
 
 def user_login(request):
@@ -1533,8 +1546,9 @@ def application(request,job_id,u_id):
         #messages.success(request, "Application sent successfully")
         messages.success(request, 'Your application has been submitted successfully!')
         return redirect('user_single_job', job_id=job_id, u_id=u_id)
-    context = {'obj':obj,'today_date':today_date}
-    return render(request,'application.html',context)
+    
+    messages.error(request, 'There was an error processing your application.')
+    return redirect('user_single_job', job_id=job_id, u_id=u_id)
 
 from django.urls import reverse
 def profile(request):

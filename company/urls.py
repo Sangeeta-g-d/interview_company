@@ -7,6 +7,7 @@ urlpatterns = [
     path('',views.index,name='index'),
     path('demo',views.demo,name='demo'),
     path('admin_db',views.admin_db,name='admin_db'),
+    path('admin_login',views.admin_login,name='admin_login'),
     path('update_status',views.update_status,name='update_status'),
     path('job_list/<str:department>',views.job_list,name='job_list'),
     path('location_related_jobs/<str:location>',views.location_related_jobs,name='location_related_jobs'),

@@ -137,7 +137,14 @@ label[for="resume"] {
     border-radius: 5px;
     margin-bottom: 15px;
   }
-
+  .error-message {
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
 </style>
 
 <section class="hero-area bg-3 text-center overly mb-4">
@@ -206,14 +213,18 @@ label[for="resume"] {
             <div class="col-lg-8" style="margin-top: -50px; margin-left: -1px;">
                 <h4><b>Job Description</b></h4>
                 {% if messages %}
-  {% for message in messages %}
-    {% if message.tags == 'success' %}
-      <div class="success-message">
-        {{ message }}
-      </div>
-    {% endif %}
-  {% endfor %}
-{% endif %}
+                {% for message in messages %}
+                  {% if message.tags == 'success' %}
+                    <div class="success-message">
+                      {{ message }}
+                    </div>
+                  {% elif message.tags == 'error' %}
+                    <div class="error-message">
+                      {{ message }}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
 
                 <hr>
                 
