@@ -15,6 +15,7 @@ class NewUser(AbstractUser):
     city = models.CharField(max_length=100, default='hubli')
     about = models.CharField(max_length=1000, default='about')
     profile = models.ImageField(upload_to='uploaded_images/',default="profile")
+    status = models.BooleanField(default=0)
     
 
 class CompanyDetails(models.Model):

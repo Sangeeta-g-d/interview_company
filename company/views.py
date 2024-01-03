@@ -43,7 +43,32 @@ def demo(request):
     return render(request,'components.html')
 
 
+def admin_db(request):
+    i = request.user.id
+    obj = NewUser.objects.get(id=i)
+    today_date = date.today()
+    
+    data = NewUser.objects.filter(Q(user_type='Company') | Q(user_type='Agency'))
+    context = {
+        'obj':obj,
+        'today_date':today_date,
+        'data':data,
+    }
+    print(data)
+    return render(request,'admin_db.html',context)
 
+def update_status(request):
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        user_id = request.POST.get('user_id')
+        user = get_object_or_404(NewUser, id=user_id)
+        print("userrrrrrr",user)
+        
+        # Assuming 'status' is a BooleanField in your model
+        user.status = True
+        user.save()
+        
+        return JsonResponse({'message': 'Status updated successfully!'})
+    return JsonResponse({}, status=400)
 
 def index(request):
     recent_agency_jobs = AgencyJobDetails.objects.all().order_by('-created_on')[:5]
@@ -246,6 +271,75 @@ def location_related_jobs(request, location):
 
     return render(request, 'location_related_jobs.html', context)
 
+def user_location_related(request, location):
+    decoded_department = unquote(location)
+    print("!!!!!!!!!!",decoded_department)
+    job_details = JobDetails.objects.filter(location=decoded_department, status='open')
+    print("##########",job_details)
+    agency_job_details = AgencyJobDetails.objects.filter(location=decoded_department, status='open')
+    print("##########",agency_job_details)
+    all_jobs = list(chain(job_details, agency_job_details))
+    for job in all_jobs:
+        today = datetime.now().date()  # Define 'today' here for each iteration
+        days_posted_ago = (today - job.created_on).days
+        job.days_posted_ago = days_posted_ago
+
+    # Sort the combined queryset based on days posted (latest at the top)
+    all_jobs = sorted(all_jobs, key=lambda x: x.created_on, reverse=True)
+
+    unique_departments_agency = AgencyJobDetails.objects.values_list('department', flat=True).distinct()
+    unique_departments_job = JobDetails.objects.values_list('department', flat=True).distinct()
+    all_unique_departments = list(set(chain(unique_departments_agency, unique_departments_job)))
+
+    open_status_count_job = (
+        JobDetails.objects.filter(status='open')
+        .values('department')
+        .annotate(open_count=Count('department'))
+    )
+
+    open_status_count_agency = (
+        AgencyJobDetails.objects.filter(status='open')
+        .values('department')
+        .annotate(open_count=Count('department'))
+    )
+
+    open_jobs_count = defaultdict(int)
+    for item in open_status_count_job:
+        open_jobs_count[item['department']] += item['open_count']
+
+    for item in open_status_count_agency:
+        open_jobs_count[item['department']] += item['open_count']
+
+    department_open_counts = [
+        (department, open_jobs_count.get(department, 0)) for department in all_unique_departments
+    ]
+
+    work_modes = AgencyJobDetails.objects.values_list('work_mode', flat=True).distinct()
+
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
+
+    context = {
+        'all_jobs': all_jobs,
+        'selected_department': decoded_department,
+        'department_open_counts':department_open_counts,
+        'work_modes':work_modes,
+        'combined_counts':combined_counts,
+    }
+
+    return render(request, 'user_location_related.html', context)
+
 
 def user_job_list(request, department):
     decoded_department = unquote(department)
@@ -300,11 +394,28 @@ def user_job_list(request, department):
 
     work_modes = AgencyJobDetails.objects.values_list('work_mode', flat=True).distinct()
 
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
+
+    
+
     context = {
         'all_jobs': all_jobs,
         'selected_department': decoded_department,
         'department_open_counts':department_open_counts,
         'work_modes':work_modes,
+        'combined_counts':combined_counts
     }
 
     return render(request, 'user_job_list.html', context)
@@ -562,13 +673,29 @@ def user_search_results(request):
     department_open_counts = [
         (department, open_jobs_count.get(department, 0)) for department in all_unique_departments
     ]
+
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
+
     context = {
         'combined_results': combined_results,
         'keyword': keyword,
         'job_title': job_title,
         'location': location,
         'job_type': job_type,
-        'department_open_counts':department_open_counts
+        'department_open_counts':department_open_counts,
+        'combined_counts':combined_counts
     }
 
     return render(request, 'user_search_results.html', context)
@@ -699,12 +826,27 @@ def user_work_mode(request, selected_work_mode):
         job.days_posted_ago = days_posted_ago
         job.is_saved = job.id in saved_job_ids
 
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
+
 
     context = {
         'selected_work_mode': selected_work_mode,
         'jobs': combined_jobs,
         'department_open_counts':department_open_counts,
-        'selected_work_mode':selected_work_mode
+        'selected_work_mode':selected_work_mode,
+        'combined_counts':combined_counts,
     }
 
     return render(request, 'user_work_mode.html', context)
@@ -723,11 +865,12 @@ def user_single_job(request,job_id,u_id):
         job = JobDetails.objects.select_related('company_id').filter(id=job_id, status="open").first()
         print("**********************",job.designation)
     context = {
-
+        'job_id':job_id,
         'job': job,
+        'u_id':u_id
 
     }
-    return render(request,'user_single_job.html',context)
+    return render(request, 'user_single_job.html',context)
 
 def companies(request):
     hiring_partners = NewUser.objects.filter(Q(user_type='Company') | Q(user_type='Agency'))
@@ -787,16 +930,13 @@ def login1(request):
             i = request.user.id
             print("agencyyyy idddd",i)
             return redirect('agency_dashboard')
-        elif user is not None and user.user_type == 'job seeker':
+        elif user is not None and user.is_superuser:
             login(request, user)
-            i = request.user.id
-            print("agencyyyy idddd",i)
-            obj = UserDetails.objects.filter(user_id_id=i).first()
-            print("!!!!!!!!!",obj)
-            if obj is None:
-                return redirect('user_details')
-            else:
-                return redirect('user_dashboard')
+            return redirect('/admin_db')
+
+        else:
+            print("credentials are wrong")
+           
 
     return render(request, 'login1.html')
 
@@ -1120,8 +1260,24 @@ def user_dashboard1(request):
         (department, open_jobs_count.get(department, 0)) for department in all_unique_departments
     ]
 
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
+
     context = {'obj':obj,'today_date':today_date,'combined_recommended_jobs':combined_recommended_jobs
-    ,'department_open_counts':department_open_counts}
+    ,'department_open_counts':department_open_counts,
+    'combined_counts':combined_counts
+    }
     return render(request,'user_dashboard1.html',context)
 
 
@@ -1220,9 +1376,23 @@ def jobs(request):
     department_open_counts = [
         (department, open_jobs_count.get(department, 0)) for department in all_unique_departments
     ]
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
 
     context = {'obj':obj,'today_date':today_date,'data':data,'combined_data':combined_data,
-    'department_open_counts':department_open_counts}
+    'department_open_counts':department_open_counts,
+    'combined_counts':combined_counts}
     return render(request,'jobs.html',context)
 
 
@@ -1361,7 +1531,8 @@ def application(request,job_id,u_id):
             #messages.success(request, 'Your application has been submitted successfully!')
         #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",application)
         #messages.success(request, "Application sent successfully")
-        return redirect('/jobs')
+        messages.success(request, 'Your application has been submitted successfully!')
+        return redirect('user_single_job', job_id=job_id, u_id=u_id)
     context = {'obj':obj,'today_date':today_date}
     return render(request,'application.html',context)
 
@@ -2157,6 +2328,65 @@ def company(request,id):
     }
     return render(request,'company.html',context)
 
+def company_info(request,id):
+    print("iddddddddd",id)
+    obj = NewUser.objects.get(id=id)
+    info = CompanyDetails.objects.filter(companyOrAgency_id_id=id).first()
+    c_img = info.cover_image
+    print(info.other_image1)
+    
+    company_names = []
+    company_jobs_dict = {}
+
+    if obj.user_type == 'Company':
+        # If the user is a company, retrieve jobs related to that company
+        jobs = JobDetails.objects.filter(company_id_id=id)
+        company_names = [obj.first_name]
+        display_jobs = JobDetails.objects.filter(company_id_id=id)  # Assuming company_name exists in the NewUser model
+        # Additional logic for companies if needed
+    else:
+        display_jobs = AgencyJobDetails.objects.filter(company_id_id=id)
+        # If the user is not a company, assume it's an agency and retrieve jobs related to that agency
+        # Fetch unique company names and associated job details for agencies
+        companies_with_jobs = (
+            
+            AgencyJobDetails.objects.filter(agency_id_id=id)
+            .values('company_id__company_name', 'designation', 'no_of_vacancy')
+            .distinct()
+        )
+
+        for company in companies_with_jobs:
+            company_name = company['company_id__company_name']
+            job_details = {
+                'designation': company['designation'],
+
+                'no_of_vacancy': company['no_of_vacancy'],
+                # Add other job details here
+            }
+            if company_name in company_jobs_dict:
+                company_jobs_dict[company_name].append(job_details)
+            else:
+                company_jobs_dict[company_name] = [job_details]
+            print(company_jobs_dict)
+
+        company_names = list(company_jobs_dict.keys())
+        for x in company_names:
+            print(x)
+        jobs = None  # No direct jobs to display for agencies
+
+    
+    context = {
+        'jobs': jobs,
+        'company_names': company_names,
+        'company_jobs_dict': company_jobs_dict,
+        'obj': obj,
+        'info':info,
+        'c_img':c_img,
+        'display_jobs':display_jobs
+        
+    }
+    return render(request,'company_info.html',context)
+
 def saved_jobs1(request):
     user_id = request.user.id
     agency_jobs = AgencyJobSaved.objects.select_related('companyIdOrAgencyId','job_id').filter(user_id=user_id)
@@ -2178,6 +2408,7 @@ def saved_jobs1(request):
         x.is_saved = x.id in saved_job_ids
     context = {
     'all_saved_jobs':all_saved_jobs,
+    'combined_counts':combined_counts
 
     }
 
@@ -2240,6 +2471,20 @@ def saved_jobs(request):
     department_open_counts = [
         (department, open_jobs_count.get(department, 0)) for department in all_unique_departments
     ]
+
+    job_details_count = JobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Count jobs in each unique location from AgencyJobDetails
+    agency_job_details_count = AgencyJobDetails.objects.values('location').annotate(job_count=Count('location'))
+
+# Combine the counts
+    combined_counts = {}
+
+    for job_detail in job_details_count:
+        combined_counts[job_detail['location']] = combined_counts.get(job_detail['location'], 0) + job_detail['job_count']
+
+    for agency_job_detail in agency_job_details_count:
+        combined_counts[agency_job_detail['location']] = combined_counts.get(agency_job_detail['location'], 0) + agency_job_detail['job_count']
 
     context = {'obj':obj,'today_date':today_date
     ,'department_open_counts':department_open_counts,'all_saved_jobs':all_saved_jobs}

@@ -38,6 +38,11 @@
     stroke: red; /* Define the stroke color for the filled bookmark */
     stroke-width: 3; /* Define the stroke width for the filled bookmark */
 }
+.product-item:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a box shadow when hovering */
+      transform: translateY(-20px); /* Move the card slightly up when hovering */
+      transition: box-shadow 0.7s ease, transform 0.7s ease; /* Add a smooth transition effect */
+  }
 </style>
 
 <section class="page-search">
@@ -141,6 +146,17 @@ $(document).ready(function() {
     <li><a href="{% url 'user_work_mode' 'remote' %}">Remote</a></li>
 	</ul>
 </div>
+<div class="widget category-list">
+	<h4 class="widget-header">Location</h4>
+	<ul class="category-list">
+
+    {% for location, job_count in combined_counts.items %}
+		<li><a href="{% url 'location_related_jobs' location|urlencode %}">{{ location }}<span>({{job_count }})</span></a></li>
+	{% endfor %}
+	</ul>
+</div>
+
+
 
 				</div>
 			</div>

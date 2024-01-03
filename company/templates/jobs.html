@@ -24,20 +24,13 @@
 
 #suggestionListJobTitle li:hover {
     background-color: #f2f2f2;
-    color:black;
+      color:black;
 }
-.empty-bookmark path {
-  fill: none; /* Define the fill color for the empty bookmark */
-  stroke: #660000; /* Define the stroke color for the empty bookmark */
-   stroke-width: 2;
-   color: black;
-}
-/* Styles for the filled bookmark icon */
-.filled-bookmark path {
-    fill: yellow; /* Define the fill color for the filled bookmark */
-    stroke: red; /* Define the stroke color for the filled bookmark */
-    stroke-width: 3; /* Define the stroke width for the filled bookmark */
-}
+.product-item:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a box shadow when hovering */
+      transform: translateY(-20px); /* Move the card slightly up when hovering */
+      transition: box-shadow 0.7s ease, transform 0.7s ease; /* Add a smooth transition effect */
+  }
 </style>
 
 <section class="page-search">
@@ -49,9 +42,9 @@
           <form method="GET" action="{% url 'user_search_results' %}">
             <div class="form-row">
               <div class="form-group col-xl-4 col-lg-3 col-md-6">
- <input type="text" name="job_title" class="form-control my-2 my-lg-1" id="inputtext4" placeholder="Job Title">
- <ul id="suggestionListJobTitle"></ul> <!-- Empty <ul> for displaying suggestions -->
-</div>
+                <input type="text" name="job_title" class="form-control my-2 my-lg-1" id="inputtext4" placeholder="Job Title">
+                <ul id="suggestionListJobTitle"></ul> <!-- Empty <ul> for displaying suggestions -->
+               </div>
               <div class="form-group col-lg-3 col-md-6">
                 <select  name="type" class="w-100 form-control mt-lg-1 mt-md-2">
                   <option>Job Type</option>
@@ -73,50 +66,50 @@
 		</div>
 	</div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('#inputtext4').on('input', function() {
-        const keyword = $(this).val().trim();
-        const suggestionList = $('#suggestionListJobTitle');
-
-        if (keyword.length >= 2) {  // Adjust the minimum length for suggestions
-            $.ajax({
-                url: '/autocomplete-job-title/',  // Replace with your Django URL for job title suggestions
-                data: { keyword: keyword },
-                dataType: 'json',
-                success: function(response) {
-                    const suggestions = response.suggestions;
-                    suggestionList.empty(); // Clear previous suggestions
-                    if (suggestions.length > 0) {
-                        suggestions.forEach(function(suggestion) {
-                            suggestionList.append(`<li>${suggestion}</li>`); // Append suggestions to the <ul>
-                        });
-                        suggestionList.show(); // Show the suggestion list
-                    } else {
-                        suggestionList.hide(); // Hide the suggestion list if no suggestions
-                    }
-                }
-            });
-        } else {
-            suggestionList.hide(); // Hide the suggestion list if input length is less than 2
-        }
-    });
-
-    // Handle click on suggestion and populate the input field
-    $('body').on('click', '#suggestionListJobTitle li', function() {
-        const suggestionText = $(this).text();
-        $('#inputtext4').val(suggestionText);
-        $('#suggestionListJobTitle').hide(); // Hide the suggestion list after selecting a suggestion
-    });
-});
-</script>
+  <script>
+  $(document).ready(function() {
+      $('#inputtext4').on('input', function() {
+          const keyword = $(this).val().trim();
+          const suggestionList = $('#suggestionListJobTitle');
+  
+          if (keyword.length >= 2) {  // Adjust the minimum length for suggestions
+              $.ajax({
+                  url: '/autocomplete-job-title/',  // Replace with your Django URL for job title suggestions
+                  data: { keyword: keyword },
+                  dataType: 'json',
+                  success: function(response) {
+                      const suggestions = response.suggestions;
+                      suggestionList.empty(); // Clear previous suggestions
+                      if (suggestions.length > 0) {
+                          suggestions.forEach(function(suggestion) {
+                              suggestionList.append(`<li>${suggestion}</li>`); // Append suggestions to the <ul>
+                          });
+                          suggestionList.show(); // Show the suggestion list
+                      } else {
+                          suggestionList.hide(); // Hide the suggestion list if no suggestions
+                      }
+                  }
+              });
+          } else {
+              suggestionList.hide(); // Hide the suggestion list if input length is less than 2
+          }
+      });
+  
+      // Handle click on suggestion and populate the input field
+      $('body').on('click', '#suggestionListJobTitle li', function() {
+          const suggestionText = $(this).text();
+          $('#inputtext4').val(suggestionText);
+          $('#suggestionListJobTitle').hide(); // Hide the suggestion list after selecting a suggestion
+      });
+  });
+  </script>
 </section>
 <section class="section-sm">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="search-result bg-gray">
-          <h2>Recommendations</h2>
+          <h2>Jobs</h2>
 				</div>
 			</div>
 		</div>
@@ -141,6 +134,15 @@ $(document).ready(function() {
     <li><a href="{% url 'user_work_mode' 'remote' %}">Remote</a></li>
 	</ul>
 </div>
+<div class="widget category-list">
+	<h4 class="widget-header">Location</h4>
+	<ul class="category-list">
+
+    {% for location, job_count in combined_counts.items %}
+		<li><a href="{% url 'user_location_related' location|urlencode %}">{{ location }}<span>({{job_count }})</span></a></li>
+	{% endfor %}
+	</ul>
+</div>
 
 				</div>
 			</div>
@@ -157,70 +159,51 @@ $(document).ready(function() {
 			<!-- <div class="price">$200</div> -->
       {% if x.company_id.first_name %}
       <div class="image-container">
-        <a href="{% url 'single_job' job_id=x.id u_id=x.company_id_id  %}" style="display: block; text-align: center;">
-      <img class="card-img-top img-fluid mt-3" src="/{{ x.company_id.profile }}" alt="Card image cap" style="width: 100px; height: auto; margin: 0 auto;">
+        <a href="{% url 'user_single_job' job_id=x.id u_id=x.company_id_id  %}" style="display: block; text-align: center;">
+      <img class="card-img-top img-fluid mt-3" src="/{{ x.company_id.profile }}" alt="Card image cap" style="width: 130px; height: 120px; margin: 0 auto;">
   </a>
 
   </div>
       {% else %}
       <div class="image-container">
-        <a href="{% url 'single_job' job_id=x.id u_id=x.agency_id_id  %}" style="display: block; text-align: center;">
+        <a href="{% url 'user_single_job' job_id=x.id u_id=x.agency_id_id  %}" style="display: block; text-align: center;">
       <img class="card-img-top img-fluid mt-3" src="/{{ x.company_id.profile }}" alt="Card image cap" style="width: 100px; height: auto; margin: 0 auto;">
   </a>
   </div>
       {% endif %}
 		</div>
-    <div class="card-body">
-      {% if x.company_id.first_name %}
-    <h4 class="card-title">
-      {{ x.designation }}
-      <span class="bookmark-icon" data-job-id="{{ x.id }}" data-company-id="{{ x.company_id_id }}">
-         <svg class="{% if x.is_saved %}filled-bookmark{% else %}empty-bookmark{% endif %}" xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512" style="margin-left: 10px;">
-          <!-- SVG path for an empty bookmark -->
-          <path d="M336 0H48C21.5 0 0 21.5 0 48v464l192-112 192 112V48c0-26.5-21.5-48-48-48zm0 428.4l-144-84-144 84V54a6 6 0 0 1 6-6h276c3.3 0 6 2.7 6 6V428.4z"/>
-        </svg>
-      </span>
-    </h4>
-  {% else %}
-    <h4 class="card-title">
-      {{ x.designation }}
-      <span class="bookmark-icon" data-job-id="{{ x.id }}" data-company-id="{{ x.agency_id_id }}">
+		<div class="card-body">
+      <h4 class="card-title">
+ {{x.designation}}
 
-      <svg class="{% if x.is_saved %}filled-bookmark{% else %}empty-bookmark{% endif %}" xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512" style="margin-left: 10px;">
-          <!-- SVG path for an empty bookmark -->
-          <path d="M336 0H48C21.5 0 0 21.5 0 48v464l192-112 192 112V48c0-26.5-21.5-48-48-48zm0 428.4l-144-84-144 84V54a6 6 0 0 1 6-6h276c3.3 0 6 2.7 6 6V428.4z"/>
-        </svg>
-      </span>
-    </h4>
-  {% endif %}
-
-        <ul class="list-inline product-meta">
+</h4>
+		    <ul class="list-inline product-meta">
           {% if x.company_id.first_name %}
           <li class="list-inline-item">
-          {{x.company_id.first_name}}
-          </li><br>
+		    	{{x.company_id.first_name}}
+		    	</li><br>
           {% else %}
           <li class="list-inline-item">
             {{x.company_id.company_name}}
           </li><br>
           {% endif %}
-          <li class="list-inline-item">
-          <i class="fas fa-stopwatch"></i> {{x.job_type}}
-          </li>
-          <li class="list-inline-item">
-            <i class="fa fa-map-marker"></i> {{x.location}}
-          </li>
+		    	<li class="list-inline-item">
+		    	<i class="fas fa-stopwatch"></i> {{x.job_type}}
+		    	</li>
+		    	<li class="list-inline-item">
+		    		<i class="fa fa-map-marker"></i> {{x.location}}
+		    	</li>
           <li class="list-inline-item">
             <i class="fa fa-rupee-sign"></i> {{x.salary}}
           </li>
-        </ul>
+		    </ul>
         <p class="card-text">Required Skills : {{ x.mandatory_skills }}</p>
         {% if x.company_id.first_name %}
     <a class="nav-link text-white add-button" href="{% url 'user_single_job' job_id=x.id u_id=x.company_id_id  %}" class="read-more-link">Apply now</a><br>
     {% else %}
     <a class="nav-link text-white add-button" href="{% url 'user_single_job' job_id=x.id u_id=x.agency_id_id  %}" class="read-more-link">Apply now</a><br>
     {% endif %}
-    </div>
+		</div>
       &nbsp<p class="card-text">Posted {{x.days_since_posted}} ago</p>
 	</div>
 </div>
@@ -252,84 +235,12 @@ document.addEventListener("DOMContentLoaded", function() {
 					</div>
 				</div>
 
+
 			</div>
 		</div>
 	</div>
 </section>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-  // Get the CSRF token from the cookie
-function getCookie(name) {
-  var cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-      var cookies = document.cookie.split(';');
-      for (var i = 0; i < cookies.length; i++) {
-          var cookie = jQuery.trim(cookies[i]);
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-          }
-      }
-  }
-  return cookieValue;
-}
-
-$(document).ready(function() {
-  $('.bookmark-icon').on('click', function() {
-      var jobID = $(this).data('job-id');
-      var companyID = $(this).data('company-id');
-      var icon = $(this).find('svg');
-
-      // Get the CSRF token
-      var csrftoken = getCookie('csrftoken');
-
-      if (icon.hasClass('empty-bookmark')) {
-          // If the icon is empty, save it in the database
-          $.ajax({
-              type: 'POST',
-              url: '/save_job/' + jobID + '/' + companyID + '/',
-              headers: { 'X-CSRFToken': csrftoken },
-              data: JSON.stringify({
-                  'job_id': jobID,
-                  'u_id': companyID
-              }),
-              contentType: 'application/json',
-              success: function(response) {
-                  // Update the icon on success
-                  icon.removeClass('empty-bookmark').addClass('filled-bookmark');
-              },
-              error: function(xhr, status, error) {
-                  console.error(xhr.responseText);
-                  // Handle error scenario
-              }
-          });
-      } else {
-          // If the icon is filled, remove it from the database
-          $.ajax({
-              type: 'POST',
-              url: '/remove_job/' + jobID + '/' + companyID + '/', // Adjust the URL for removing the job
-              headers: { 'X-CSRFToken': csrftoken },
-              data: JSON.stringify({
-                  'job_id': jobID,
-                  'u_id': companyID
-              }),
-              contentType: 'application/json',
-              success: function(response) {
-                  // Update the icon on success
-                  icon.removeClass('filled-bookmark').addClass('empty-bookmark');
-              },
-              error: function(xhr, status, error) {
-                  console.error(xhr.responseText);
-                  // Handle error scenario
-              }
-          });
-      }
-  });
-});
-
-
-</script>
 <!--============================
 =            Footer            =
 =============================-->

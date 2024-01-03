@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Interview Scheduler</title>
+  <!-- base:css -->
+  <link rel="stylesheet" href="/static/assets/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="/static/assets/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css' rel='stylesheet' />
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css' rel='stylesheet' />
+
+  <link rel="stylesheet" href="/static/assets/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+</head>
+<body>
+  <div class="row" id="proBanner">
+
+  </div>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="navbar-brand-wrapper d-flex justify-content-center">
+        <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
+
+    <h5 style="color: white; font-family: 'Arial', sans-serif; font-weight: bold;">Interview Scheduler</h5>
+
+    <!-- Other content here -->
+
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="/static/assets/images/logo-mini.svg" alt="logo"/></a>
+
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav mr-lg-2">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
+              
+              <span class="nav-profile-name"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+
+              <a href="/logout" class="dropdown-item">
+                <i class="typcn typcn-eject text-primary"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-date dropdown">
+       <a class="nav-link d-flex justify-content-center align-items-center" href="javascript:;" id="calendarButton">
+           <h6 class="date mb-0">Today: {{today_date}}</h6>
+           <i class="typcn typcn-calendar"></i>
+       </a>
+   </li>
+
+
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="typcn typcn-th-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <div id="calendarModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeCalendar">&times;</span>
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <!-- partial -->
+    <nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">
+      <div class="navbar-links-wrapper d-flex align-items-stretch">
+        <div class="nav-link">
+          <a href="javascript:;"><i class="typcn typcn-calendar-outline"></i></a>
+        </div>
+        <div class="nav-link">
+          <a href="javascript:;"><i class="typcn typcn-mail"></i></a>
+        </div>
+        <div class="nav-link">
+          <a href="javascript:;"><i class="typcn typcn-folder"></i></a>
+        </div>
+        <div class="nav-link">
+          <a href="javascript:;"><i class="typcn typcn-document-text"></i></a>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav mr-lg-2">
+          <li class="nav-item ml-0">
+            <h4 class="mb-0">Dashboard</h4>
+          </li>
+          <li class="nav-item">
+            <div class="d-flex align-items-baseline">
+              <p class="mb-0">Home</p>
+              <i class="typcn typcn-chevron-right"></i>
+              <p class="mb-0">Admin Dashboard</p>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_settings-panel.html -->
+     
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="\admin_db">
+              <i class="typcn typcn-device-desktop menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+
+            </a>
+          </li>
+          
+         
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="typcn typcn-user menu-icon"></i>
+              <span class="menu-title">Profile</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="col-lg-16 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Job Openings</h3>
+                    <div class="row">
+                  <div class="col-md-6">
+                      <a href="/add_job">
+                          <button type="button" class="btn btn-primary mr-2">+ Add New Job</button>
+                      </a>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="input-group">
+                        <form class=""id="searchForm" >
+                    <div class="input-group">
+                        <input type="text" name="search_query" class="form-control" placeholder="Search..." aria-label="search" aria-describedby="search" value="{{ request.GET.search_query }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="submit" id="search">
+                                <i class="typcn typcn-zoom"></i>
+                            </button>
+                            <a href="{% url 'job_vacancy' %}">
+                                <button class="btn btn-outline-secondary" type="button" id="refresh">
+                                    <i class="typcn typcn-refresh"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+              
+                <script>
+                  document.addEventListener("DOMContentLoaded", function() {
+                      // Function to handle search functionality
+                      function performSearch() {
+                          const searchInput = document.querySelector('input[name="search_query"]');
+                          const searchText = searchInput.value.toLowerCase();
+                          const tableRows = document.querySelectorAll('#dataTable tbody tr');
+              
+                          tableRows.forEach(row => {
+                              const rowData = row.textContent.toLowerCase();
+                              if (rowData.includes(searchText)) {
+                                  row.style.display = ''; // Show the row if it contains the search text
+                              } else {
+                                  row.style.display = 'none'; // Hide the row if it doesn't match the search text
+                              }
+                          });
+                      }
+              
+                      // Event listener for form submission
+                      const searchForm = document.getElementById('searchForm');
+                      searchForm.addEventListener('submit', function(event) {
+                          event.preventDefault(); // Prevent form submission
+                          performSearch(); // Call the search function
+                      });
+              
+                      // Optional: Event listener for real-time search as the user types
+                      const searchInput = document.querySelector('input[name="search_query"]');
+                      searchInput.addEventListener('input', performSearch);
+                  });
+              </script>
+                      </div>
+                  </div>
+              </div>
+                    <p class="card-description">
+              
+                    </p>
+                    <div class="table-responsive">
+                      <table class="table table-hover" id="dataTable">
+                        <thead>
+                          <tr>
+              
+                            <th>id</th>
+                            <th>Company name</th>
+                            <th>Contact number</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for x in data %}
+                          <tr>
+                            <td>{{x.id}}</td>
+                            <td>{{x.first_name}}</td>
+                            <td>{{x.phone_no}}</td>
+                            <td>{{x.email}}</td>
+                            <td  class="break-words">{{x.address}}</td>
+                            <td> <button class="btn btn-secondary approve-btn" data-user-id="{{ x.id }}">Approve</button></td>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                                $(document).ready(function () {
+                                    $(".approve-btn").on("click", function () {
+                                        var userId = $(this).data("user-id");
+                                        var button = $(this); // Reference to the clicked button
+                                        
+                                        // Send an AJAX request to update the user status
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{% url 'update_status' %}",
+                                            data: {
+                                                'user_id': userId,
+                                                'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                            },
+                                            success: function (response) {
+                                                // Update the UI or perform any action upon success
+                                                console.log("Status updated successfully!");
+                                                button.prop('disabled', true); // Disable the button after approval
+                                                button.text('Approved'); // Optionally change the button text
+                                                // Assuming response includes updated status, update the UI
+                                                button.closest('tr').find('.status-cell').text('True'); // Update status cell value
+                                            },
+                                            error: function (error) {
+                                                console.log("Error occurred:", error);
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                            
+              
+                   
+              
+                          </tr>
+              {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+
+
+
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- base:js -->
+  <script src="/static/assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="/static/assets/vendors/chart.js/Chart.min.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="/static/assets/js/off-canvas.js"></script>
+  <script src="/static/assets/js/hoverable-collapse.js"></script>
+  <script src="/static/assets/js/template.js"></script>
+  <script src="/static/assets/js/settings.js"></script>
+  <script src="/static/assets/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="/static/assets/js/dashboard.js"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>
