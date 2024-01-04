@@ -72,4 +72,5 @@ urlpatterns = [
     path('logout', views.company_logout, name='company_logout'),
     path('agency_logout', views.agency_logout, name='agency_logout'),
     path('search_trend/<str:keyword>/', views.search_trend, name='search_trend'),
+    path('questions', views.questions, name='questions'),
 ]
