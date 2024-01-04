@@ -176,3 +176,14 @@ class CompanyJobSaved(models.Model):
     companyIdOrAgencyId=models.ForeignKey('NewUser',on_delete=models.CASCADE,related_name='companyId')
     applied_date = models.DateField(default=timezone.now)
     job_id = models.ForeignKey('JobDetails',on_delete=models.CASCADE,default=1)
+
+
+class TopCompanies(models.Model):
+    company_name = models.CharField(max_length=600,default="top company")
+    company_logo = models.ImageField(upload_to='uploaded_images/',default="company logo")
+
+class InterviewQuestions(models.Model):
+    company_id = models.ForeignKey('TopCompanies',on_delete=models.CASCADE)
+    question = models.CharField(max_length=3000, default='question')
+    answer = models.CharField(max_length=5000, default='answer')
+    designation = models.CharField(max_length=300, default='none')
