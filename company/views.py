@@ -2620,3 +2620,7 @@ def single_job(request,job_id,u_id):
 
     }
     return render(request, 'single_job.html',context)
+
+
+def questions(request):
+    return render(request, 'questions.html')
