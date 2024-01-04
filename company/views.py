@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden,HttpResponseBadRequest
 from django.template import loader
-from .models import NewUser, JobDetails, UserDetails, AppliedJobs, CompanyDetails,ApplicationStatus, ScheduleInterview, Agency_Company,AgencyJobDetails,AgencyAppliedJobs,AgencyApplicationStatus
-from .models import AgencyScheduleInterview, AgencyJobSaved, CompanyJobSaved
+from .models import NewUser, JobDetails, UserDetails, AppliedJobs, CompanyDetails,ApplicationStatus, ScheduleInterview, Agency_Company,AgencyJobDetails,AgencyAppliedJobs,AgencyApplicationStatus, InterviewQuestions
+from .models import AgencyScheduleInterview, AgencyJobSaved, CompanyJobSaved, TopCompanies
 from rest_framework import generics
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate,login,logout
@@ -69,6 +69,39 @@ def update_status(request):
         
         return JsonResponse({'message': 'Status updated successfully!'})
     return JsonResponse({}, status=400)
+
+
+def add_interview_question(request):
+    i = request.user.id
+    obj = NewUser.objects.get(id=i)
+    today_date = date.today()
+    data = TopCompanies.objects.all()
+    context = {
+        'obj':obj,
+        'today_date':today_date,
+        'data':data,
+    }
+    return render(request,'add_interview_question.html',context)
+
+def add_top_company(request):
+    if request.method == 'POST':
+        company_name = request.POST.get('company_name')
+        company_logo = request.FILES.get('company_logo')
+        data = TopCompanies.objects.create(company_name=company_name,company_logo=company_logo)
+        print(data)
+        return redirect('/admin_db')
+
+def add_questions(request):
+    if request.method == 'POST':
+        company_id = request.POST.get('companyId')
+        #print(company_id)
+        question = request.POST.get('question')
+        #print(question)
+        answer = request.POST.get('answer')
+        #print(answer)
+        data = InterviewQuestions.objects.create(company_id_id = company_id, question=question,
+        answer=answer)
+        return redirect('/add_interview_question')
 
 def index(request):
     recent_agency_jobs = AgencyJobDetails.objects.all().order_by('-created_on')[:5]
