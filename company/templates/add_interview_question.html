@@ -315,7 +315,7 @@ label[for="resume"] {
                           <tr>
                             <td>{{x.id}}</td>
                             <td>{{x.company_name}}</td>
-                            <td><button id="addQuestion" class="btn btn-secondary approve-btn add-question-btn" data-id="{{ x.id }}">Add Question</button>
+                            <td><button class="btn btn-secondary approve-btn add-question-btn" data-id="{{ x.id }}">Add Question</button>
                             </td>
                             
 
@@ -391,22 +391,29 @@ label[for="resume"] {
          <!-- Your HTML content -->
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('addQuestion').addEventListener('click', function() {
-    const companyId = this.getAttribute('data-id');
-    console.log(companyId)
-    document.querySelector('#companyId').value = companyId;
-    document.querySelector('.form-container1').style.display = 'block';
-    document.querySelector('.form-container1').style.right = '0';
+  document.addEventListener('DOMContentLoaded', function() {
+  const addQuestionBtns = document.querySelectorAll('.add-question-btn');
+
+  addQuestionBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const companyId = this.getAttribute('data-id');
+      const formContainer = document.querySelector('.form-container1');
+
+      document.querySelector('#companyId').value = companyId;
+      formContainer.style.display = 'block';
+      formContainer.style.right = '0';
+    });
   });
 
-  // Event delegation to handle click on close-btn
   document.addEventListener('click', function(event) {
     if (event.target.classList.contains('close-btn')) {
-      document.querySelector('.form-container1').style.right = '-400px';
+      const formContainer = document.querySelector('.form-container1');
+      formContainer.style.right = '-400px';
     }
   });
 });
+
+
 
   </script>
   

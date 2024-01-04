@@ -89,7 +89,7 @@ def add_top_company(request):
         company_logo = request.FILES.get('company_logo')
         data = TopCompanies.objects.create(company_name=company_name,company_logo=company_logo)
         print(data)
-        return redirect('/admin_db')
+        return redirect('/add_interview_question')
 
 def add_questions(request):
     if request.method == 'POST':
