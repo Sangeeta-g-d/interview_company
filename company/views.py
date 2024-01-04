@@ -134,6 +134,7 @@ from datetime import datetime, timedelta
 from itertools import chain
 
 def job_list(request, department):
+    print(department)
     decoded_department = unquote(department)
     print("!!!!!!!!!!",decoded_department)
     job_details = JobDetails.objects.filter(department=decoded_department, status='open')
