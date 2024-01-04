@@ -644,7 +644,7 @@ document.addEventListener("DOMContentLoaded", function() {
                   <h4>{{ department }}</h4>
               </div>
               <ul class="category-list">
-                  <li><a href="{% url 'job_list' department|urlencode %}">Active Jobs <span>{{ count }}</span></a></li>
+                  <li><a href="{% url 'job_list' department %}">Active Jobs <span>{{ count }}</span></a></li>
               </ul>
           </div>
       </div>
